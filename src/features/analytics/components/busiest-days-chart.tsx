@@ -20,7 +20,7 @@ export function BusiestDaysChart({ data }: { data: DayOfWeekCount[] | undefined 
         <XAxis dataKey="label" tick={{ fontSize: 12 }} />
         <YAxis allowDecimals={false} tick={{ fontSize: 12 }} />
         <Tooltip />
-        <Bar dataKey="count" fill="var(--primary)" radius={[4, 4, 0, 0]} />
+        <Bar dataKey="total" fill="var(--primary)" radius={[4, 4, 0, 0]} />
       </BarChart>
     </ResponsiveContainer>
   );

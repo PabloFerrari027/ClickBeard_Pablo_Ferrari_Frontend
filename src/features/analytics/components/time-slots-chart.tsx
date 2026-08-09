@@ -9,7 +9,7 @@ import type { TimeSlotCount } from "@/types/api";
 export function TimeSlotsChart({ data }: { data: TimeSlotCount[] | undefined }) {
   const chartData = (data ?? []).map((item) => ({
     ...item,
-    label: item.time.includes("T") ? formatTime(item.time) : item.time,
+    label: item.startTime.includes("T") ? formatTime(item.startTime) : item.startTime,
   }));
 
   return (
@@ -19,7 +19,7 @@ export function TimeSlotsChart({ data }: { data: TimeSlotCount[] | undefined }) 
         <XAxis dataKey="label" tick={{ fontSize: 12 }} />
         <YAxis allowDecimals={false} tick={{ fontSize: 12 }} />
         <Tooltip />
-        <Bar dataKey="count" fill="var(--secondary)" radius={[4, 4, 0, 0]} />
+        <Bar dataKey="total" fill="var(--secondary)" radius={[4, 4, 0, 0]} />
       </BarChart>
     </ResponsiveContainer>
   );

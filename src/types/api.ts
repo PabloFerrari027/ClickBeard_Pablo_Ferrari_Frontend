@@ -137,12 +137,12 @@ export interface PeriodQuery {
 
 export interface DayOfWeekCount {
   dayOfWeek: number;
-  count: number;
+  total: number;
 }
 
 export interface TimeSlotCount {
-  time: string;
-  count: number;
+  startTime: string;
+  total: number;
 }
 
 export interface RoleCount {
