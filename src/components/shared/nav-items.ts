@@ -2,8 +2,15 @@ import { Calendar, Clock, LayoutDashboard, Scissors, Sparkles, User, Users } fro
 
 import type { NavItem } from "./nav-item";
 
-/** Navegação de CLIENT/BARBER, compartilhada entre `(client)/layout.tsx` e a home autenticada. */
+/** Navegação de CLIENT, compartilhada entre `(client)/layout.tsx` e a home autenticada. Sem "Qualificações": o cliente já escolhe a qualificação dentro do fluxo de agendamento, um catálogo à parte não tem uso pra ele. */
 export const CLIENT_NAV_ITEMS: NavItem[] = [
+  { label: "Meus agendamentos", href: "/appointments", icon: Calendar },
+  { label: "Barbeiros", href: "/barbers", icon: Scissors },
+  { label: "Meu perfil", href: "/profile", icon: User },
+];
+
+/** Navegação de BARBER, compartilhada entre `(client)/layout.tsx` e a home autenticada. */
+export const BARBER_NAV_ITEMS: NavItem[] = [
   { label: "Meus agendamentos", href: "/appointments", icon: Calendar },
   { label: "Barbeiros", href: "/barbers", icon: Scissors },
   { label: "Qualificações", href: "/qualifications", icon: Sparkles },
