@@ -21,6 +21,11 @@ export interface CancelByAdminPayload {
   reason: string;
 }
 
+export interface FutureAppointmentsPeriod {
+  startAt?: string;
+  endAt?: string;
+}
+
 export const appointmentsService = {
   getTimeSlots(query: TimeSlotsQuery): Promise<TimeSlotsResponse> {
     return apiFetch<TimeSlotsResponse>("/appointments/time-slots", {
@@ -48,8 +53,13 @@ export const appointmentsService = {
     return apiFetch<AppointmentsListResponse>("/appointments/today", { query: { page } });
   },
 
-  listFuture(page: number): Promise<AppointmentsListResponse> {
-    return apiFetch<AppointmentsListResponse>("/appointments/future", { query: { page } });
+  listFuture(
+    page: number,
+    period?: FutureAppointmentsPeriod
+  ): Promise<AppointmentsListResponse> {
+    return apiFetch<AppointmentsListResponse>("/appointments/future", {
+      query: { page, ...period },
+    });
   },
 
   // [PLANEJADO] — spec §3.5, atrás de PLANNED_FEATURES_ENABLED
