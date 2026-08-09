@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon, Loader2, Scissors, Sparkles } from "lucide-react";
@@ -15,6 +15,7 @@ import { EmptyState } from "@/components/shared/empty-state";
 import { useBarber } from "@/features/barbers/hooks/use-barber";
 import { useBarbers } from "@/features/barbers/hooks/use-barbers";
 import { ApiError, resolveErrorMessage } from "@/lib/api-error";
+import { useAuth } from "@/lib/auth-context";
 import { cn, getInitials } from "@/lib/utils";
 import { useCreateAppointment } from "../hooks/use-create-appointment";
 import { useTimeSlots } from "../hooks/use-time-slots";
@@ -36,6 +37,8 @@ function startOfToday(): Date {
 export function BookingWizard() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { user } = useAuth();
+
   const preselectedBarberId = searchParams.get("barberId");
 
   const [step, setStep] = useState(preselectedBarberId ? 2 : 1);
@@ -45,6 +48,23 @@ export function BookingWizard() {
   const [slot, setSlot] = useState<string | null>(null);
 
   const { data: barbersPage, isLoading: loadingBarbers } = useBarbers(1);
+  // Um barbeiro não pode agendar consigo mesmo.
+  const bookableBarbers =
+    barbersPage?.barbers.filter((barber) => barber.userId !== user?.id) ?? [];
+
+  useEffect(() => {
+    if (!barbersPage || !barberId) return;
+    const isBookable = bookableBarbers.some((barber) => barber.id === barberId);
+    if (!isBookable) {
+      setBarberId(null);
+      setQualificationId(null);
+      setDate(undefined);
+      setSlot(null);
+      setStep(1);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [barbersPage, user?.id]);
+
   const { data: selectedBarber, isLoading: loadingBarber } = useBarber(barberId ?? undefined);
   const dateParam = date ? format(date, "yyyy-MM-dd") : undefined;
   const {
@@ -154,11 +174,11 @@ export function BookingWizard() {
         {step === 1 &&
           (loadingBarbers ? (
             <Skeleton className="h-48 w-full" aria-hidden="true" />
-          ) : !barbersPage || barbersPage.barbers.length === 0 ? (
+          ) : bookableBarbers.length === 0 ? (
             <EmptyState icon={Scissors} title="Nenhum barbeiro disponível" />
           ) : (
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-              {barbersPage.barbers.map((barber) => (
+              {bookableBarbers.map((barber) => (
                 <button
                   key={barber.id}
                   type="button"
