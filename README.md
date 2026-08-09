@@ -121,6 +121,8 @@ Layout dedicado (`(auth)/layout.tsx`): card centralizado sobre fundo `muted`, se
 | `/appointments`      | `appointments/page.tsx`      | Meus agendamentos (paginado)                                                       |
 | `/appointments/[id]` | `appointments/[id]/page.tsx` | Detalhe + cancelamento                                                             |
 
+**Barbeiro não pode agendar consigo mesmo**: no passo 1 do wizard (`BookingWizard`, `features/scheduling/components/booking-wizard.tsx`), a lista de barbeiros exclui aquele cujo `userId` é igual ao `id` do usuário logado — vale tanto para a seleção manual quanto para um `barberId` pré-selecionado via query string (`/book?barberId=...`, usado pelo CTA "Agendar" de `/barbers/[id]`). É uma validação client-side (UX); a API é a autoridade final e deve rejeitar `POST /appointments` no mesmo cenário.
+
 ### 5.3 Área administrativa — `(admin)`
 
 | Rota                            | Página                               | Conteúdo                                                    |
