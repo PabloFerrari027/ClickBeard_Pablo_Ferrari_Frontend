@@ -5,7 +5,7 @@ import { ArrowRight, Calendar, Percent, Plus, Users } from "lucide-react";
 
 import { AppHeader } from "@/components/shared/app-header";
 import { AppSidebar } from "@/components/shared/app-sidebar";
-import { ADMIN_NAV_ITEMS, CLIENT_NAV_ITEMS } from "@/components/shared/nav-items";
+import { ADMIN_NAV_ITEMS, BARBER_NAV_ITEMS, CLIENT_NAV_ITEMS } from "@/components/shared/nav-items";
 import { ErrorState } from "@/components/shared/error-state";
 import { RoleBadge } from "@/components/shared/role-badge";
 import { AppointmentStatusBadge } from "@/components/shared/status-badge";
@@ -33,7 +33,12 @@ const GREETING_SUBTITLE: Record<UserRole, string> = {
 
 /** Home autenticada (dashboard inicial) — atalhos e resumo adaptados ao `user.role`. */
 export function AuthenticatedHome({ user }: { user: User }) {
-  const navItems = user.role === "ADMIN" ? ADMIN_NAV_ITEMS : CLIENT_NAV_ITEMS;
+  const navItems =
+    user.role === "ADMIN"
+      ? ADMIN_NAV_ITEMS
+      : user.role === "BARBER"
+        ? BARBER_NAV_ITEMS
+        : CLIENT_NAV_ITEMS;
   const firstName = user.name.trim().split(/\s+/)[0] ?? user.name;
 
   return (

@@ -6,7 +6,7 @@ import { Loader2 } from "lucide-react";
 
 import { AppHeader } from "@/components/shared/app-header";
 import { AppSidebar } from "@/components/shared/app-sidebar";
-import { CLIENT_NAV_ITEMS } from "@/components/shared/nav-items";
+import { BARBER_NAV_ITEMS, CLIENT_NAV_ITEMS } from "@/components/shared/nav-items";
 import { useAuth } from "@/lib/auth-context";
 
 /** Sidebar + header do cliente, guarda de sessão (spec §6). CLIENT/BARBER/ADMIN autenticados. */
@@ -15,7 +15,7 @@ export default function ClientAreaLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { isLoading, isAuthenticated } = useAuth();
+  const { isLoading, isAuthenticated, user, optimisticUser } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
@@ -35,11 +35,14 @@ export default function ClientAreaLayout({
 
   if (!isAuthenticated) return null;
 
+  const role = user?.role ?? optimisticUser?.role;
+  const navItems = role === "BARBER" ? BARBER_NAV_ITEMS : CLIENT_NAV_ITEMS;
+
   return (
     <div className="min-h-screen">
-      <AppHeader navItems={CLIENT_NAV_ITEMS} homeHref="/" />
+      <AppHeader navItems={navItems} homeHref="/" />
       <div className="flex">
-        <AppSidebar items={CLIENT_NAV_ITEMS} />
+        <AppSidebar items={navItems} />
         <main className="min-h-[calc(100vh-4rem)] flex-1 p-4 md:p-6">
           <div className="mx-auto max-w-7xl">{children}</div>
         </main>

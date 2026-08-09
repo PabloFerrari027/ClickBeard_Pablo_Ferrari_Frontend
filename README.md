@@ -9,7 +9,7 @@
 ClickBeard é um sistema de agendamento para barbearia com três papéis de usuário sobre a mesma tabela (`CLIENT`, `BARBER`, `ADMIN`). Todo cadastro público cria um usuário `CLIENT` — não é possível criar `BARBER`/`ADMIN` diretamente; a promoção é feita por um ADMIN via `PATCH /users/:id/role`. O frontend é uma aplicação **Next.js 16 (App Router)** que cobre três experiências:
 
 1. **Área pública** — cadastro (sempre como `CLIENT`), login em duas etapas (senha + código de verificação por e-mail).
-2. **Área do cliente** — CLIENT e BARBER têm exatamente as mesmas permissões: consultar barbeiros/qualificações, agendar, ver e cancelar os próprios agendamentos, editar perfil/senha.
+2. **Área do cliente** — CLIENT e BARBER têm exatamente as mesmas permissões: consultar barbeiros, agendar, ver e cancelar os próprios agendamentos, editar perfil/senha. A única diferença é de navegação: o catálogo de qualificações (`/qualifications`) só aparece no menu do BARBER — o CLIENT já escolhe a qualificação dentro do próprio wizard de agendamento, então um catálogo à parte não tinha uso pra ele.
 3. **Área administrativa** — ADMIN gerencia barbeiros, qualificações, agendamentos (hoje/futuros) e visualiza um painel de analytics com 6 telas.
 
 Não existe backend real conectado neste momento — `NEXT_PUBLIC_API_URL` aponta para um placeholder (`.env.local.example`). Nenhum fluxo foi testado ponta a ponta contra dados reais; a aplicação foi validada via `next build`, `tsc --noEmit`, `next lint` e inspeção manual do HTML renderizado em `next dev`.
@@ -116,7 +116,7 @@ Layout dedicado (`(auth)/layout.tsx`): card centralizado sobre fundo `muted`, se
 | `/profile`           | `profile/page.tsx`           | Abas Dados / Segurança                                                             |
 | `/barbers`           | `barbers/page.tsx`           | Grid de barbeiros (somente leitura)                                                |
 | `/barbers/[id]`      | `barbers/[id]/page.tsx`      | Detalhe + CTA "Agendar"                                                            |
-| `/qualifications`    | `qualifications/page.tsx`    | Catálogo de serviços (somente leitura, sem paginação)                              |
+| `/qualifications`    | `qualifications/page.tsx`    | Catálogo de serviços (somente leitura, sem paginação); só no menu do BARBER       |
 | `/book`              | `book/page.tsx`              | Wizard de agendamento (4 passos)                                                   |
 | `/appointments`      | `appointments/page.tsx`      | Meus agendamentos (paginado)                                                       |
 | `/appointments/[id]` | `appointments/[id]/page.tsx` | Detalhe + cancelamento                                                             |
