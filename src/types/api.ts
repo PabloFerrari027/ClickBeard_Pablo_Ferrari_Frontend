@@ -194,7 +194,7 @@ export interface BarberMetrics {
 export interface TopCustomer {
   customerId: string;
   customerName: string;
-  appointmentsCount: number;
+  total: number;
 }
 
 export interface CustomerLastAppointment {

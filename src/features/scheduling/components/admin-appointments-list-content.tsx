@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { UseQueryResult } from "@tanstack/react-query";
@@ -28,19 +28,31 @@ interface AdminAppointmentsListContentProps {
   title: string;
   description?: string;
   emptyTitle: string;
-  useAppointmentsQuery: (page: number) => UseQueryResult<AppointmentsListResponse>;
+  emptyDescription?: string;
+  emptyAction?: ReactNode;
+  query: UseQueryResult<AppointmentsListResponse>;
+  onPageChange: (page: number) => void;
+  filter?: ReactNode;
 }
 
-/** Base compartilhada de `/admin/appointments/today` e `/admin/appointments/future` (spec §13.18). */
+/**
+ * Base compartilhada de `/admin/appointments/today` e `/admin/appointments/future` (spec §13.18).
+ * Recebe a query já invocada (em vez de um hook-factory) porque cada página passa parâmetros
+ * diferentes ao hook (ex.: `future` também envia período) — chamar o hook aqui dentro de uma
+ * closure quebraria as regras de Hooks.
+ */
 export function AdminAppointmentsListContent({
   title,
   description,
   emptyTitle,
-  useAppointmentsQuery,
+  emptyDescription,
+  emptyAction,
+  query,
+  onPageChange,
+  filter,
 }: AdminAppointmentsListContentProps) {
-  const [page, setPage] = useState(1);
   const router = useRouter();
-  const { data, isLoading, isError, refetch } = useAppointmentsQuery(page);
+  const { data, isLoading, isError, refetch } = query;
   const [cancelTarget, setCancelTarget] = useState<Appointment | null>(null);
 
   const columns: ColumnDef<Appointment>[] = [
@@ -104,18 +116,20 @@ export function AdminAppointmentsListContent({
 
   return (
     <div>
-      <PageHeader title={title} description={description} />
+      <PageHeader title={title} description={description} action={filter} />
       <DataTable
         columns={columns}
         data={data?.appointments ?? []}
         page={data?.page ?? 1}
         totalPages={data?.totalPages ?? 1}
-        onPageChange={setPage}
+        onPageChange={onPageChange}
         isLoading={isLoading}
         isError={isError}
         onRetry={() => refetch()}
         emptyIcon={Calendar}
         emptyTitle={emptyTitle}
+        emptyDescription={emptyDescription}
+        emptyAction={emptyAction}
         onRowClick={(appointment) => router.push(`/admin/appointments/${appointment.id}`)}
       />
       {PLANNED_FEATURES_ENABLED && cancelTarget ? (

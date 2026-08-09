@@ -90,6 +90,8 @@ export const domainErrorMessages: Record<string, string> = {
     "Você não tem permissão para acessar este agendamento.",
   CancellationWindowExpiredError: "A janela de cancelamento expirou.",
   CancellationReasonRequiredError: "Informe o motivo do cancelamento.",
+  InvalidAppointmentPeriodError:
+    "A data inicial do período deve ser anterior ou igual à data final.",
 
   // analytics
   CustomRangeRequiredError:
