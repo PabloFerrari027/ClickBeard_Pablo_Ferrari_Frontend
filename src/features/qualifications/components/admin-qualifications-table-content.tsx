@@ -12,6 +12,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ConfirmDialog } from "@/components/shared/confirm-dialog";
 import { DataTable } from "@/components/shared/data-table";
@@ -165,6 +166,55 @@ export function AdminQualificationsTableContent() {
             />
           )
         }
+        renderMobileCard={(qualification) => (
+          <Card>
+            <CardContent className="space-y-3 pt-6">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <p className="min-w-0 truncate text-sm font-medium">{qualification.name}</p>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      aria-label="Ações"
+                      onClick={(event) => event.stopPropagation()}
+                    >
+                      <MoreHorizontal className="size-4" aria-hidden="true" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <QualificationDialog
+                      qualification={qualification}
+                      trigger={
+                        <DropdownMenuItem onSelect={(event) => event.preventDefault()}>
+                          Editar
+                        </DropdownMenuItem>
+                      }
+                    />
+                    <DropdownMenuItem
+                      variant="destructive"
+                      onSelect={(event) => {
+                        event.preventDefault();
+                        setPendingDelete(qualification);
+                      }}
+                    >
+                      Excluir
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+              <p className="text-sm text-muted-foreground">
+                {qualification.description || "—"}
+              </p>
+              <div>
+                <p className="text-xs tracking-wide text-muted-foreground uppercase">
+                  Criado em
+                </p>
+                <p className="text-sm">{formatDate(qualification.createdAt)}</p>
+              </div>
+            </CardContent>
+          </Card>
+        )}
       />
       <ConfirmDialog
         open={pendingDelete !== null}

@@ -89,9 +89,9 @@ export function UserDetailContent({ userId }: { userId: string }) {
       <PageHeader title="Usuário" description="Ações administrativas sobre esta conta." />
 
       <Card>
-        <CardHeader className="flex-row items-center justify-between">
-          <CardTitle>{user.name}</CardTitle>
-          <div className="flex items-center gap-2">
+        <CardHeader className="flex-row flex-wrap items-center justify-between gap-2">
+          <CardTitle className="min-w-0 truncate">{user.name}</CardTitle>
+          <div className="flex shrink-0 items-center gap-2">
             <RoleBadge role={user.role} />
             <ActiveStatusBadge active={user.active} />
           </div>

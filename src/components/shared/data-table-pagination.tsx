@@ -17,7 +17,7 @@ export function DataTablePagination({
   if (totalPages <= 1) return null;
 
   return (
-    <div className="flex items-center justify-between gap-4">
+    <div className="flex flex-wrap items-center justify-center gap-3 sm:justify-between">
       <p className="text-sm text-muted-foreground">
         Página {page} de {totalPages}
       </p>

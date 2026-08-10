@@ -8,6 +8,7 @@ import { MoreHorizontal, Plus, Scissors } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -126,6 +127,56 @@ export function AdminBarbersTableContent() {
           </Button>
         }
         onRowClick={(barber) => router.push(`/admin/barbers/${barber.id}`)}
+        renderMobileCard={(barber) => {
+          const visible = barber.qualifications.slice(0, MAX_VISIBLE_QUALIFICATIONS);
+          const extra = barber.qualifications.length - visible.length;
+          return (
+            <Card>
+              <CardContent className="space-y-3 pt-6">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <p className="min-w-0 truncate text-sm font-medium">{barber.name}</p>
+                  <div className="flex shrink-0 items-center gap-1">
+                    <p className="text-sm text-muted-foreground">{barber.age} anos</p>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          aria-label="Ações"
+                          onClick={(event) => event.stopPropagation()}
+                        >
+                          <MoreHorizontal className="size-4" aria-hidden="true" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem asChild>
+                          <Link href={`/admin/barbers/${barber.id}`}>Ver detalhes</Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                          <Link href={`/admin/barbers/${barber.id}/edit`}>Editar</Link>
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
+                </div>
+                <div className="text-sm">
+                  <p className="text-xs tracking-wide text-muted-foreground uppercase">
+                    Contratado em
+                  </p>
+                  <p>{formatDate(barber.hiredAt)}</p>
+                </div>
+                <div className="flex flex-wrap gap-1">
+                  {visible.map((qualification) => (
+                    <Badge key={qualification.id} variant="secondary">
+                      {qualification.name}
+                    </Badge>
+                  ))}
+                  {extra > 0 ? <Badge variant="outline">+{extra}</Badge> : null}
+                </div>
+              </CardContent>
+            </Card>
+          );
+        }}
       />
     </div>
   );
