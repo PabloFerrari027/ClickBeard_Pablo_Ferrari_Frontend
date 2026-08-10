@@ -75,7 +75,9 @@ export function AdminAppointmentsListContent({
     {
       id: "status",
       header: "Status",
-      cell: ({ row }) => <AppointmentStatusBadge status={row.original.status} />,
+      cell: ({ row }) => (
+        <AppointmentStatusBadge status={row.original.status} startAt={row.original.startAt} />
+      ),
     },
     {
       id: "actions",
