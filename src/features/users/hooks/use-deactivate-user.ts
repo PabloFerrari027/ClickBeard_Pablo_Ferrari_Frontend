@@ -11,6 +11,7 @@ export function useDeactivateUser(userId: string) {
     mutationFn: () => usersService.deactivate(userId),
     onSuccess: (user) => {
       queryClient.setQueryData(["users", "detail", userId], user);
+      queryClient.invalidateQueries({ queryKey: ["users", "list"] });
     },
   });
 }

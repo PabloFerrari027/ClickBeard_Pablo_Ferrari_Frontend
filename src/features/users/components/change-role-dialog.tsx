@@ -25,13 +25,18 @@ import { ApiError, resolveErrorMessage } from "@/lib/api-error";
 import { useChangeRole } from "../hooks/use-change-role";
 import type { UserRole } from "@/types/domain";
 
-const ROLE_OPTIONS: { value: UserRole; label: string }[] = [
+const ALL_ROLE_OPTIONS: { value: UserRole; label: string }[] = [
   { value: "CLIENT", label: "Cliente" },
   { value: "BARBER", label: "Barbeiro" },
   { value: "ADMIN", label: "Administrador" },
 ];
 
-/** `PATCH /users/:id/role` (spec §3.1, §13.20) — desabilita a opção igual ao papel atual. */
+/**
+ * `PATCH /users/:id/role` (spec §3.1, §13.20) — desabilita a opção igual ao papel atual.
+ * Promoção para Barbeiro não é mais permitida por aqui: cadastro de barbeiro passa pelo
+ * formulário próprio. A opção só aparece quando o usuário já é barbeiro, permitindo apenas
+ * a regressão dele para Cliente/Administrador.
+ */
 export function ChangeRoleDialog({
   userId,
   currentRole,
@@ -42,6 +47,9 @@ export function ChangeRoleDialog({
   const [open, setOpen] = useState(false);
   const [role, setRole] = useState<UserRole>(currentRole);
   const { mutate, isPending } = useChangeRole(userId);
+  const roleOptions = ALL_ROLE_OPTIONS.filter(
+    (option) => option.value !== "BARBER" || currentRole === "BARBER"
+  );
 
   function handleConfirm() {
     mutate(
@@ -83,7 +91,7 @@ export function ChangeRoleDialog({
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            {ROLE_OPTIONS.map((option) => (
+            {roleOptions.map((option) => (
               <SelectItem
                 key={option.value}
                 value={option.value}
