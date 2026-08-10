@@ -20,7 +20,7 @@ export function AppointmentCard({ appointment, showCustomer }: AppointmentCardPr
       <CardContent className="space-y-3 pt-6">
         <div className="flex items-center justify-between">
           <p className="text-sm font-medium">{formatDateTime(appointment.startAt)}</p>
-          <AppointmentStatusBadge status={appointment.status} />
+          <AppointmentStatusBadge status={appointment.status} startAt={appointment.startAt} />
         </div>
         <div className="grid grid-cols-2 gap-2 text-sm">
           <Field label="Barbeiro">

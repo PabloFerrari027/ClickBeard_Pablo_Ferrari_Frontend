@@ -131,7 +131,7 @@ function NextAppointmentSummary() {
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <AppointmentStatusBadge status={next.status} />
+              <AppointmentStatusBadge status={next.status} startAt={next.startAt} />
               <Button variant="outline" size="sm" asChild>
                 <Link href={`/appointments/${next.id}`}>Ver detalhes</Link>
               </Button>

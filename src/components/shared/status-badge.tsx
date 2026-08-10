@@ -1,9 +1,28 @@
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { APPOINTMENT_SLOT_MINUTES } from "@/lib/business-rules";
 import type { AppointmentStatus } from "@/types/domain";
 
-/** SCHEDULED → success; CANCELLED → contorno, não preenchido (spec §7.1). */
-export function AppointmentStatusBadge({ status }: { status: AppointmentStatus }) {
+/**
+ * A API nunca marca um agendamento como concluído (só SCHEDULED/CANCELLED) — "Concluído" é
+ * um rótulo derivado no cliente comparando o fim do slot com o relógio local.
+ */
+function isAppointmentOver(startAt: string): boolean {
+  const endAt = new Date(startAt).getTime() + APPOINTMENT_SLOT_MINUTES * 60 * 1000;
+  return endAt <= Date.now();
+}
+
+/** SCHEDULED (futuro) → success; SCHEDULED (passado) → concluído; CANCELLED → contorno (spec §7.1). */
+export function AppointmentStatusBadge({
+  status,
+  startAt,
+}: {
+  status: AppointmentStatus;
+  startAt: string;
+}) {
+  if (status === "SCHEDULED" && isAppointmentOver(startAt)) {
+    return <Badge variant="secondary">Concluído</Badge>;
+  }
   if (status === "SCHEDULED") {
     return (
       <Badge className="border-transparent bg-success text-success-foreground hover:bg-success">

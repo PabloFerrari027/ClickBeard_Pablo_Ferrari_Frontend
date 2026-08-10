@@ -71,7 +71,7 @@ export function AppointmentDetailContent({ appointmentId }: { appointmentId: str
       <Card>
         <CardHeader className="flex-row flex-wrap items-center justify-between gap-2">
           <CardTitle className="min-w-0">{formatDateTime(appointment.startAt)}</CardTitle>
-          <AppointmentStatusBadge status={appointment.status} />
+          <AppointmentStatusBadge status={appointment.status} startAt={appointment.startAt} />
         </CardHeader>
         <CardContent className="grid gap-4 sm:grid-cols-2">
           <Field label="Barbeiro">
