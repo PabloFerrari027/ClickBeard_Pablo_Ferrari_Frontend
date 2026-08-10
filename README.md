@@ -83,7 +83,7 @@ src/
 │   ├── qualifications/ idem
 │   ├── scheduling/     idem
 │   ├── analytics/      {components, hooks, services, lib/period-query.ts} — sem schemas/ (sem formulários)
-│   └── home/           {components: public-home.tsx, authenticated-home.tsx} — conteúdo de `/`
+│   └── home/           {components: public-home.tsx, authenticated-home.tsx} — public-home em `/`, authenticated-home em `/dashboard`
 │
 ├── lib/                          # Infraestrutura transversal (ver Seção 6)
 ├── schemas/password.schema.ts    # Regra de senha compartilhada entre auth e users
@@ -105,11 +105,13 @@ src/
 | `/login`        | `app/(auth)/login/page.tsx`        | `LoginForm`          |
 | `/login/verify` | `app/(auth)/login/verify/page.tsx` | `VerifyCodeForm`     |
 
-Layout dedicado (`(auth)/layout.tsx`): card centralizado sobre fundo `muted`, sem sidebar/header. Se o usuário já está autenticado, redireciona para `/`.
+Layout dedicado (`(auth)/layout.tsx`): card centralizado sobre fundo `muted`, sem sidebar/header. Se o usuário já está autenticado, redireciona para `/dashboard`.
 
 ### 5.2 Área do cliente — `(client)`
 
-`/` fica fora do grupo `(client)` — é `app/page.tsx`, na raiz de `app/`, e não exige sessão (ver `proxy.ts`, Seção 7.4). É um Client Component que decide o conteúdo com `useAuth()`: sem sessão, renderiza `PublicHome` (landing: hero, features, FAQ, localização); autenticado, renderiza `AuthenticatedHome` (saudação, card de resumo por papel, grid de atalhos). Não há redirecionamento por papel — ambos os componentes vivem em `features/home/components/`.
+`/` fica fora do grupo `(client)` — é `app/page.tsx`, na raiz de `app/`, e não exige sessão (ver `proxy.ts`, Seção 7.4). Renderiza sempre `PublicHome` (landing: hero, features, FAQ, localização), para visitante e autenticado — é a página que dá acesso a contato/FAQ, que antes sumia ao logar. `PublicHome` é um Client Component: usa `useAuth()` só para trocar o CTA de header/hero/rodapé (Entrar/Criar conta → avatar com menu + "Ir para o painel").
+
+`/dashboard` também fica fora de `(client)` (mesmo motivo: precisa decidir os `navItems` por `role`, incluindo `ADMIN`, que o layout de `(client)` não cobre). Guarda de sessão própria (redireciona para `/login` se não autenticado) e renderiza `AuthenticatedHome` (saudação, card de resumo por papel, grid de atalhos) — é o destino pós-login e o que o item "Início" do menu e o avatar da home apontam. Ambos os componentes vivem em `features/home/components/`.
 
 | Rota                 | Página                       | Conteúdo                                                                           |
 | -------------------- | ---------------------------- | ---------------------------------------------------------------------------------- |
@@ -131,7 +133,7 @@ Layout dedicado (`(auth)/layout.tsx`): card centralizado sobre fundo `muted`, se
 | `/admin/analytics/users`        | `admin/analytics/users/page.tsx`     | Métricas de usuários                                        |
 | `/admin/analytics/appointments` | `.../appointments/page.tsx`          | Métricas de agendamentos                                    |
 | `/admin/analytics/barbers`      | `.../barbers/page.tsx`               | Métricas de barbeiros                                       |
-| `/admin/analytics/customers`    | `.../customers/page.tsx`             | Métricas de clientes + busca por `customerId`               |
+| `/admin/analytics/customers`    | `.../customers/page.tsx`             | Métricas de clientes (top clientes por agendamentos)         |
 | `/admin/analytics/occupation`   | `.../occupation/page.tsx`            | Ocupação por barbeiro + horários livres hoje                |
 | `/admin/barbers`                | `admin/barbers/page.tsx`             | Tabela de barbeiros                                         |
 | `/admin/barbers/new`            | `admin/barbers/new/page.tsx`         | Criar barbeiro                                              |
@@ -139,7 +141,7 @@ Layout dedicado (`(auth)/layout.tsx`): card centralizado sobre fundo `muted`, se
 | `/admin/barbers/[id]/edit`      | `.../edit/page.tsx`                  | Editar idade/data de contratação                            |
 | `/admin/qualifications`         | `admin/qualifications/page.tsx`      | CRUD completo                                               |
 | `/admin/appointments/today`     | `admin/appointments/today/page.tsx`  | Agenda do dia                                               |
-| `/admin/appointments/future`    | `admin/appointments/future/page.tsx` | Agenda futura (inclui cancelados)                           |
+| `/admin/appointments/future`    | `admin/appointments/future/page.tsx` | Agenda futura (inclui cancelados), com filtro de período (De/Até) |
 | `/admin/appointments/[id]`      | `admin/appointments/[id]/page.tsx`   | Detalhe + cancelamento admin\*                              |
 | `/admin/users`                  | `admin/users/page.tsx`               | Tabela paginada de usuários                                 |
 | `/admin/users/[id]`             | `admin/users/[id]/page.tsx`          | Gestão de usuário (papel, ativação)                         |
@@ -181,7 +183,9 @@ Layout dedicado (`(auth)/layout.tsx`): card centralizado sobre fundo `muted`, se
 
 ```
 POST /users (registro) — body: {name, email, password, birthDate?}; sem requesterId
-   → toast + redirect /login (e-mail pré-preenchido)
+   → dispara login automático (POST /auth/login) com o email/senha recém-cadastrados
+       em sucesso: redirect /login/verify (mesmo fluxo abaixo, sem passar pela tela de login)
+       em erro: toast + redirect /login (e-mail pré-preenchido) — fallback do fluxo antigo
 
 POST /auth/login (200, {user})
    → NÃO retorna token — guarda {userId,email,name} em memória
@@ -197,7 +201,7 @@ POST /auth/login (200, {user})
        2. POST /api/auth/session (Route Handler grava o refresh token em cookie httpOnly)
        3. GET /users/:id (para obter `role`, que /auth/login não retorna)
        4. grava {id,name,email,role} no cookie de conveniência
-   → redirect "/" → decide destino por role
+   → redirect "/dashboard"
 ```
 
 ### 7.2 Onde cada coisa mora
@@ -222,7 +226,8 @@ Toda chamada passa por `apiFetch()`. Em uma resposta 401 cuja rota **não** tenh
 Renomeado de `middleware.ts` para `proxy.ts` — o Next.js 16.3 depreciou a convenção antiga (`npx @next/codemod middleware-to-proxy`;. Verifica apenas a **presença** do cookie de refresh token (não sua validade — isso é decisão da API):
 
 - Fora de `(auth)` sem cookie → redireciona para `/login?redirect={path}`.
-- Dentro de `(auth)` (exceto `/login/verify`) com cookie presente → redireciona para `/`.
+- Dentro de `(auth)` (exceto `/login/verify`) com cookie presente → redireciona para `/dashboard`.
+- `/` é a única rota fora de `(auth)` que não exige cookie — landing compartilhada por visitante e autenticado (ver Seção 5.2).
 
 A checagem adicional de `role === 'ADMIN'` acontece no `(admin)/layout.tsx` (client-side, depois que `AuthProvider` resolve o usuário) — é defesa em profundidade de UX; a autorização real está 100% no backend.
 
@@ -262,7 +267,7 @@ Todas em `lib/business-rules.ts`, cada uma comentada com a seção da spec de or
 
 | Constante                                                             | Valor    | Uso                                                         |
 | --------------------------------------------------------------------- | -------- | ----------------------------------------------------------- |
-| `MIN_APPOINTMENT_NOTICE_HOURS`                                        | 2        | Janela de cancelamento e aviso de slot "quase indisponível" |
+| `MIN_APPOINTMENT_NOTICE_HOURS`                                        | 2        | Janela de cancelamento (`CancelWindowNotice`)                |
 | `VERIFICATION_CODE_TTL_MINUTES`                                       | 10       | Referência de UX (não exibido como contador)                |
 | `MAX_VERIFICATION_CODE_ATTEMPTS`                                      | 5        | Contador "Tentativa N de 5" no `OtpInput`                   |
 | `RESEND_CODE_COOLDOWN_SECONDS`                                        | 30       | Cooldown do botão "Reenviar código"                         |
@@ -320,7 +325,7 @@ Estas restrições vêm da ausência de endpoints no backend e moldaram decisõe
 2. **Sem "esqueci minha senha"** — `PATCH /users/:id/password` sempre exige a senha atual.
 3. ~~Sem edição de nome/data de nascimento~~ — resolvido: `PATCH /users/:id/profile` (self-only, nem admin pode agir por outro usuário aqui) edita nome e data de nascimento; e-mail continua somente leitura (sem rota dedicada). Senha (`PATCH /users/:id/password`) e papel (`PATCH /users/:id/role`, admin) continuam em rotas separadas.
 4. **Status ativo/inativo do barbeiro não aparece na listagem** — `BarberResponseDto` não traz o `active` do usuário subjacente; chamar `GET /users/:id` por linha não escalaria.
-5. **Criar barbeiro exige digitar o email manualmente** — não existe `GET /users?role=BARBER` para popular um dropdown de busca (`features/barbers/components/barber-form.tsx`, campo `email`). O usuário precisa já ter sido promovido a `BARBER` via `ChangeRoleDialog` (`/admin/users/[id]`) antes de ser vinculado a um perfil operacional aqui.
+5. **Criar barbeiro exige digitar o email manualmente** — não existe `GET /users?role=BARBER` para popular um dropdown de busca (`features/barbers/components/barber-form.tsx`, campo `email`). O usuário precisa já ter papel `BARBER` antes de ser vinculado a um perfil operacional aqui. ⚠️ `ChangeRoleDialog` (`/admin/users/[id]`) não permite mais promover para `BARBER` — só regredir um `BARBER` existente para `CLIENT`/`ADMIN` — e não há outro fluxo de UI que promova um usuário a `BARBER`; hoje isso deixa a promoção sem caminho na interface (ver `features/users/components/change-role-dialog.tsx`).
 
 ---
 
