@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Search, Users as UsersIcon } from "lucide-react";
 
+import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { DataTable } from "@/components/shared/data-table";
 import { PageHeader } from "@/components/shared/page-header";
@@ -79,6 +80,31 @@ export function AdminUsersTableContent() {
         emptyIcon={UsersIcon}
         emptyTitle={search.trim() ? "Nenhum usuário encontrado" : "Nenhum usuário cadastrado"}
         onRowClick={(user) => router.push(`/admin/users/${user.id}`)}
+        renderMobileCard={(user) => (
+          <Card>
+            <CardContent className="space-y-3 pt-6">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <p className="min-w-0 truncate text-sm font-medium">{user.name}</p>
+                <div className="flex shrink-0 gap-1">
+                  <RoleBadge role={user.role} />
+                  <ActiveStatusBadge active={user.active} />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-2 text-sm">
+                <div>
+                  <p className="text-xs tracking-wide text-muted-foreground uppercase">Email</p>
+                  <p className="truncate">{user.email}</p>
+                </div>
+                <div>
+                  <p className="text-xs tracking-wide text-muted-foreground uppercase">
+                    Membro desde
+                  </p>
+                  <p>{formatDate(user.createdAt)}</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
       />
     </div>
   );

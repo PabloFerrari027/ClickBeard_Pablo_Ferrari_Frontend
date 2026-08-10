@@ -21,6 +21,7 @@ import { BarberName } from "@/features/barbers/components/barber-name";
 import { CustomerName } from "@/features/users/components/customer-name";
 import { PLANNED_FEATURES_ENABLED } from "@/lib/feature-flags";
 import { formatDateTime } from "@/lib/utils";
+import { AppointmentCard } from "./appointment-card";
 import { CancelByAdminDialog } from "./cancel-by-admin-dialog";
 import type { Appointment, AppointmentsListResponse } from "@/types/api";
 
@@ -131,6 +132,9 @@ export function AdminAppointmentsListContent({
         emptyDescription={emptyDescription}
         emptyAction={emptyAction}
         onRowClick={(appointment) => router.push(`/admin/appointments/${appointment.id}`)}
+        renderMobileCard={(appointment) => (
+          <AppointmentCard appointment={appointment} showCustomer />
+        )}
       />
       {PLANNED_FEATURES_ENABLED && cancelTarget ? (
         <CancelByAdminDialog

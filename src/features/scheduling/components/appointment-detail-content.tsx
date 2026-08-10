@@ -69,8 +69,8 @@ export function AppointmentDetailContent({ appointmentId }: { appointmentId: str
         <CancelWindowNotice startAt={appointment.startAt} />
       ) : null}
       <Card>
-        <CardHeader className="flex-row items-center justify-between">
-          <CardTitle>{formatDateTime(appointment.startAt)}</CardTitle>
+        <CardHeader className="flex-row flex-wrap items-center justify-between gap-2">
+          <CardTitle className="min-w-0">{formatDateTime(appointment.startAt)}</CardTitle>
           <AppointmentStatusBadge status={appointment.status} />
         </CardHeader>
         <CardContent className="grid gap-4 sm:grid-cols-2">
