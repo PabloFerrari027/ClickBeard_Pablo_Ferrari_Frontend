@@ -11,6 +11,7 @@ export function useActivateUser(userId: string) {
     mutationFn: () => usersService.activate(userId),
     onSuccess: (user) => {
       queryClient.setQueryData(["users", "detail", userId], user);
+      queryClient.invalidateQueries({ queryKey: ["users", "list"] });
     },
   });
 }

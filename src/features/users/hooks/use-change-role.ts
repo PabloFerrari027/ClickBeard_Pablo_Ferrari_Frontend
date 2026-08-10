@@ -11,6 +11,7 @@ export function useChangeRole(userId: string) {
     mutationFn: (payload: ChangeRolePayload) => usersService.changeRole(userId, payload),
     onSuccess: (user) => {
       queryClient.setQueryData(["users", "detail", userId], user);
+      queryClient.invalidateQueries({ queryKey: ["users", "list"] });
     },
   });
 }
