@@ -9,7 +9,7 @@ function isAuthPath(pathname: string): boolean {
   return AUTH_PATHS.some((p) => pathname === p || pathname.startsWith(`${p}/`));
 }
 
-/** "/" é a home pública/dashboard (spec do home): não exige sessão, decide o conteúdo no client. */
+/** "/" é a home compartilhada (spec do home): não exige sessão, decide o CTA de header/hero/footer no client. */
 function requiresSession(pathname: string): boolean {
   return pathname !== "/" && !isAuthPath(pathname);
 }
@@ -30,7 +30,7 @@ export function proxy(request: NextRequest) {
   }
 
   if (isAuthPath(pathname) && pathname !== "/login/verify" && hasSession) {
-    return NextResponse.redirect(new URL("/", request.url));
+    return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
   return NextResponse.next();

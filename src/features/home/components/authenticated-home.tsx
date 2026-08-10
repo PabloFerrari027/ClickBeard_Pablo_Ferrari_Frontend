@@ -40,6 +40,7 @@ export function AuthenticatedHome({ user }: { user: User }) {
         ? BARBER_NAV_ITEMS
         : CLIENT_NAV_ITEMS;
   const firstName = user.name.trim().split(/\s+/)[0] ?? user.name;
+  const quickAccessItems = navItems.filter((item) => item.href !== "/dashboard");
 
   return (
     <div className="min-h-screen">
@@ -63,7 +64,7 @@ export function AuthenticatedHome({ user }: { user: User }) {
             <div>
               <h2 className="mb-3 text-lg font-semibold">Acesso rápido</h2>
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {navItems.map((item) => {
+                {quickAccessItems.map((item) => {
                   const Icon = item.icon;
                   return (
                     <Link key={item.href} href={item.href}>

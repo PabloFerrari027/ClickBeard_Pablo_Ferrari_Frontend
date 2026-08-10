@@ -1,5 +1,22 @@
+"use client";
+
 import Link from "next/link";
-import { Calendar, Clock, History, Mail, MapPin, Phone, Scissors, ShieldCheck, Sparkles, UserCheck } from "lucide-react";
+import { useRouter } from "next/navigation";
+import {
+  Calendar,
+  Clock,
+  History,
+  LayoutDashboard,
+  LogOut,
+  Mail,
+  MapPin,
+  Phone,
+  Scissors,
+  ShieldCheck,
+  Sparkles,
+  User as UserIcon,
+  UserCheck,
+} from "lucide-react";
 
 import {
   Accordion,
@@ -7,9 +24,21 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useAuth } from "@/lib/auth-context";
 import { BUSINESS_HOURS_END, BUSINESS_HOURS_START, MIN_APPOINTMENT_NOTICE_HOURS } from "@/lib/business-rules";
+import { getInitials } from "@/lib/utils";
+import type { ConvenienceUser } from "@/lib/user-cookie";
+import type { User } from "@/types/api";
 
 const FEATURES = [
   {
@@ -62,7 +91,7 @@ const FAQ_ITEMS = [
   },
   {
     question: "Qual o horário de funcionamento?",
-    answer: `Atendemos de segunda a sábado, das ${BUSINESS_HOURS_START}h às ${BUSINESS_HOURS_END}h.`,
+    answer: `Atendemos todos os dias, das ${BUSINESS_HOURS_START}h às ${BUSINESS_HOURS_END}h.`,
   },
   {
     question: "Como é feito o pagamento?",
@@ -74,17 +103,17 @@ const LOCATION_INFO = [
   {
     icon: MapPin,
     title: "Endereço",
-    lines: ["Rua Example, 123 – Centro", "Sua Cidade – UF"],
+    lines: ["Av. Paulista, 1106 – Bela Vista", "São Paulo – SP"],
   },
   {
     icon: Clock,
     title: "Horário de funcionamento",
-    lines: [`Segunda a sábado`, `${BUSINESS_HOURS_START}h às ${BUSINESS_HOURS_END}h`],
+    lines: [`Todos os dias`, `${BUSINESS_HOURS_START}h às ${BUSINESS_HOURS_END}h`],
   },
   {
     icon: Phone,
     title: "Telefone",
-    lines: ["(00) 0000-0000"],
+    lines: ["(11) 4002-8922"],
   },
   {
     icon: Mail,
@@ -93,11 +122,20 @@ const LOCATION_INFO = [
   },
 ];
 
-/** Home pública (spec: usuário não autenticado) — landing explicando o produto e chamando para login/cadastro. */
+/** Home (spec §5, §13.4) — landing acessível a visitantes e autenticados; só o CTA de header/hero/footer muda com a sessão. */
 export function PublicHome() {
+  const { user, optimisticUser, logout } = useAuth();
+  const router = useRouter();
+  const displayUser = user ?? optimisticUser;
+
+  async function handleLogout() {
+    await logout();
+    router.push("/login");
+  }
+
   return (
     <div className="flex min-h-screen flex-col">
-      <PublicHeader />
+      <PublicHeader displayUser={displayUser} onLogout={handleLogout} />
 
       <main className="flex-1">
         <section className="border-b border-border bg-muted/40">
@@ -113,14 +151,23 @@ export function PublicHome() {
               Escolha o barbeiro, o serviço e o horário que preferir, e acompanhe todos os seus
               agendamentos em um único lugar.
             </p>
-            <div className="flex flex-col gap-3 sm:flex-row">
+            {displayUser ? (
               <Button size="lg" asChild>
-                <Link href="/login">Entrar</Link>
+                <Link href="/dashboard">
+                  <LayoutDashboard aria-hidden="true" />
+                  Ir para o painel
+                </Link>
               </Button>
-              <Button size="lg" variant="outline" asChild>
-                <Link href="/register">Criar conta</Link>
-              </Button>
-            </div>
+            ) : (
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <Button size="lg" asChild>
+                  <Link href="/login">Entrar</Link>
+                </Button>
+                <Button size="lg" variant="outline" asChild>
+                  <Link href="/register">Criar conta</Link>
+                </Button>
+              </div>
+            )}
           </div>
         </section>
 
@@ -168,18 +215,32 @@ export function PublicHome() {
             </div>
             <Card className="justify-center">
               <CardContent className="flex flex-col items-center gap-4 text-center">
-                <h3 className="text-xl font-semibold">Pronto para começar?</h3>
-                <p className="text-sm text-muted-foreground">
-                  Crie sua conta gratuitamente e marque seu primeiro horário agora mesmo.
-                </p>
-                <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
-                  <Button asChild>
-                    <Link href="/register">Criar conta</Link>
-                  </Button>
-                  <Button variant="outline" asChild>
-                    <Link href="/login">Já tenho conta</Link>
-                  </Button>
-                </div>
+                {displayUser ? (
+                  <>
+                    <h3 className="text-xl font-semibold">Pronto para agendar?</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Escolha o barbeiro, o serviço e o horário que preferir.
+                    </p>
+                    <Button asChild>
+                      <Link href="/book">Agendar agora</Link>
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <h3 className="text-xl font-semibold">Pronto para começar?</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Crie sua conta gratuitamente e marque seu primeiro horário agora mesmo.
+                    </p>
+                    <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
+                      <Button asChild>
+                        <Link href="/register">Criar conta</Link>
+                      </Button>
+                      <Button variant="outline" asChild>
+                        <Link href="/login">Já tenho conta</Link>
+                      </Button>
+                    </div>
+                  </>
+                )}
               </CardContent>
             </Card>
           </div>
@@ -233,31 +294,70 @@ export function PublicHome() {
         </section>
       </main>
 
-      <PublicFooter />
+      <PublicFooter displayUser={displayUser} />
     </div>
   );
 }
 
-function PublicHeader() {
+interface PublicHeaderProps {
+  displayUser: User | ConvenienceUser | null;
+  onLogout: () => void;
+}
+
+function PublicHeader({ displayUser, onLogout }: PublicHeaderProps) {
   return (
     <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-border bg-card px-4 md:px-6">
       <Link href="/" className="flex items-center gap-2 font-semibold">
         <Scissors className="size-5 text-secondary" aria-hidden="true" />
         ClickBeard
       </Link>
-      <div className="flex items-center gap-2">
-        <Button variant="ghost" asChild>
-          <Link href="/login">Entrar</Link>
-        </Button>
-        <Button asChild>
-          <Link href="/register">Criar conta</Link>
-        </Button>
-      </div>
+      {displayUser ? (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button
+              className="flex items-center gap-2 rounded-full outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              aria-label="Menu do usuário"
+            >
+              <Avatar className="size-9">
+                <AvatarFallback>{getInitials(displayUser.name)}</AvatarFallback>
+              </Avatar>
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem asChild>
+              <Link href="/dashboard">
+                <LayoutDashboard aria-hidden="true" />
+                Meu painel
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/profile">
+                <UserIcon aria-hidden="true" />
+                Meu perfil
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onSelect={onLogout}>
+              <LogOut aria-hidden="true" />
+              Sair
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      ) : (
+        <div className="flex items-center gap-2">
+          <Button variant="ghost" asChild>
+            <Link href="/login">Entrar</Link>
+          </Button>
+          <Button asChild>
+            <Link href="/register">Criar conta</Link>
+          </Button>
+        </div>
+      )}
     </header>
   );
 }
 
-function PublicFooter() {
+function PublicFooter({ displayUser }: { displayUser: User | ConvenienceUser | null }) {
   return (
     <footer className="border-t border-border bg-card">
       <div className="mx-auto flex max-w-7xl flex-col items-center gap-4 px-4 py-8 text-center md:flex-row md:justify-between md:px-6 md:text-left">
@@ -266,12 +366,20 @@ function PublicFooter() {
           ClickBeard
         </Link>
         <nav className="flex items-center gap-4 text-sm text-muted-foreground">
-          <Link href="/login" className="hover:text-foreground">
-            Entrar
-          </Link>
-          <Link href="/register" className="hover:text-foreground">
-            Criar conta
-          </Link>
+          {displayUser ? (
+            <Link href="/dashboard" className="hover:text-foreground">
+              Meu painel
+            </Link>
+          ) : (
+            <>
+              <Link href="/login" className="hover:text-foreground">
+                Entrar
+              </Link>
+              <Link href="/register" className="hover:text-foreground">
+                Criar conta
+              </Link>
+            </>
+          )}
         </nav>
         <p className="text-xs text-muted-foreground">
           © {new Date().getFullYear()} ClickBeard. Sistema de agendamento para barbearia.

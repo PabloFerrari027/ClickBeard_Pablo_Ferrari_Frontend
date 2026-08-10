@@ -18,13 +18,16 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { ApiError, resolveErrorMessage } from "@/lib/api-error";
+import { useLogin } from "../hooks/use-login";
 import { useRegister } from "../hooks/use-register";
 import { registerSchema, type RegisterFormValues } from "../schemas/auth.schemas";
 
 /** `POST /users` (spec §10.1). */
 export function RegisterForm() {
   const router = useRouter();
-  const { mutate, isPending } = useRegister();
+  const { mutate, isPending: isRegistering } = useRegister();
+  const { mutate: login, isPending: isLoggingIn } = useLogin();
+  const isPending = isRegistering || isLoggingIn;
 
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
@@ -47,8 +50,18 @@ export function RegisterForm() {
       },
       {
         onSuccess: () => {
-          toast.success("Conta criada! Faça login para continuar.");
-          router.push(`/login?email=${encodeURIComponent(values.email)}`);
+          login(
+            { email: values.email, password: values.password },
+            {
+              onSuccess: () => {
+                router.push("/login/verify");
+              },
+              onError: () => {
+                toast.success("Conta criada! Faça login para continuar.");
+                router.push(`/login?email=${encodeURIComponent(values.email)}`);
+              },
+            }
+          );
         },
         onError: (error) => {
           if (error instanceof ApiError) {

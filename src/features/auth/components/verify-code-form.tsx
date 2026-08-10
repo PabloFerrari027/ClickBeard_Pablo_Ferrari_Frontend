@@ -58,7 +58,7 @@ export function VerifyCodeForm() {
       {
         onSuccess: () => {
           setPendingVerification(null);
-          router.push("/");
+          router.push("/dashboard");
         },
         onError: (error) => {
           if (error instanceof ApiError) {
