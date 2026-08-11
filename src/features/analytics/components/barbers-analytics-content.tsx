@@ -19,7 +19,7 @@ import { useBarberMetrics } from "../hooks/use-barber-metrics";
 import { AnalyticsPageHeader } from "./analytics-page-header";
 import { MetricCard } from "./metric-card";
 
-/** `/admin/analytics/barbers` (spec §13.12) — `appointmentsByBarber` inclui barbeiros com 0. */
+/** `/admin/analytics/barbers` (spec §13.12) — `appointmentsByBarber` includes barbers with 0. */
 export function BarbersAnalyticsContent() {
   const [period, setPeriod] = useState<PeriodFilterValue>({ preset: "MONTH" });
   const { data, isLoading, isError, isFetching, refetch } = useBarberMetrics(period);

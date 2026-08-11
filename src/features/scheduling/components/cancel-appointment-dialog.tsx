@@ -12,7 +12,7 @@ interface CancelAppointmentDialogProps {
   onOpenChange: (open: boolean) => void;
 }
 
-/** `DELETE /appointments/:id` (spec §14.3) — cancelamento pelo cliente, dono do agendamento. */
+/** `DELETE /appointments/:id` (spec §14.3) — cancellation by the customer, the appointment's owner. */
 export function CancelAppointmentDialog({
   appointmentId,
   open,

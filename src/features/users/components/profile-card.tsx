@@ -24,7 +24,7 @@ import type { User } from "@/types/api";
 import { useUpdateProfile } from "../hooks/use-update-profile";
 import { updateProfileSchema, type UpdateProfileFormValues } from "../schemas/users.schemas";
 
-/** `PATCH /users/:id/profile` — nome e data de nascimento, self-only; e-mail continua somente leitura. */
+/** `PATCH /users/:id/profile` — name and birth date, self-only; email remains read-only. */
 export function ProfileCard({ user }: { user: User }) {
   const { updateUser } = useAuth();
   const { mutate, isPending } = useUpdateProfile(user.id);

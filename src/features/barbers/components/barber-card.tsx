@@ -15,7 +15,7 @@ interface BarberCardProps {
   actionLabel?: string;
 }
 
-/** Card de barbeiro reusado na listagem cliente e na listagem admin em grid (spec §13.6). */
+/** Barber card reused in the customer listing and the admin grid listing (spec §13.6). */
 export function BarberCard({ barber, href, actionLabel = "Ver detalhes" }: BarberCardProps) {
   const visible = barber.qualifications.slice(0, MAX_VISIBLE_QUALIFICATIONS);
   const extra = barber.qualifications.length - visible.length;

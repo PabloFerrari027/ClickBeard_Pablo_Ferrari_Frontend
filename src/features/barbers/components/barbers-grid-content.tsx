@@ -11,7 +11,7 @@ import { PageHeader } from "@/components/shared/page-header";
 import { useBarbers } from "../hooks/use-barbers";
 import { BarberCard } from "./barber-card";
 
-/** `/barbers` (cliente, spec §13.6) — grid responsivo, somente leitura. */
+/** `/barbers` (customer, spec §13.6) — responsive grid, read-only. */
 export function BarbersGridContent() {
   const [page, setPage] = useState(1);
   const { data, isLoading, isError, refetch } = useBarbers(page);

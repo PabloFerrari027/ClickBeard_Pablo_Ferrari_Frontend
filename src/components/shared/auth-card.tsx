@@ -10,7 +10,7 @@ interface AuthCardProps {
   children: ReactNode;
 }
 
-/** Card compartilhado por /register, /login, /login/verify (spec §8.4, §13.1-13.3). */
+/** Card shared by /register, /login, /login/verify (spec §8.4, §13.1-13.3). */
 export function AuthCard({ title, description, children }: AuthCardProps) {
   return (
     <Card>

@@ -1,6 +1,6 @@
 import type { PeriodFilterValue } from "@/components/shared/period-filter";
 
-/** Nunca envia `startAt`/`endAt` para presets fixos — evita o comportamento "silenciosamente ignorado" da API (spec §9.2). */
+/** Never sends `startAt`/`endAt` for fixed presets — avoids the API's "silently ignored" behavior (spec §9.2). */
 export function buildPeriodQuery(value: PeriodFilterValue): {
   preset: string;
   startAt?: string;

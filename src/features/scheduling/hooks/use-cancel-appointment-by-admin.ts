@@ -7,7 +7,7 @@ import {
   type CancelByAdminPayload,
 } from "../services/appointments.service";
 
-/** [PLANEJADO] `PATCH /appointments/:id/cancel` (spec §10.8, §14.4). */
+/** [PLANNED] `PATCH /appointments/:id/cancel` (spec §10.8, §14.4). */
 export function useCancelAppointmentByAdmin(id: string) {
   const queryClient = useQueryClient();
 

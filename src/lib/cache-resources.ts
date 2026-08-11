@@ -1,7 +1,7 @@
 /**
- * Espelha os TTLs do cache-aside documentado no backend (`CacheResource`), usados
- * como `staleTime` do TanStack Query (spec §4.1, §17) — evita refetch mais
- * frequente do que o backend efetivamente teria dado de novo.
+ * Mirrors the cache-aside TTLs documented on the backend (`CacheResource`), used
+ * as `staleTime` for TanStack Query (spec §4.1, §17) — avoids refetching more
+ * often than the backend would actually have given fresh data anyway.
  */
 const MINUTE = 60_000;
 

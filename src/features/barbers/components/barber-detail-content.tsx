@@ -13,7 +13,7 @@ import { PageHeader } from "@/components/shared/page-header";
 import { formatDate, getInitials } from "@/lib/utils";
 import { useBarber } from "../hooks/use-barber";
 
-/** `/barbers/[id]` (cliente, spec §13.6) — detalhe somente leitura + CTA de agendar. */
+/** `/barbers/[id]` (customer, spec §13.6) — read-only detail + book CTA. */
 export function BarberDetailContent({ barberId }: { barberId: string }) {
   const { data: barber, isLoading, isError, refetch } = useBarber(barberId);
 

@@ -30,7 +30,7 @@ import { ApiError, resolveErrorMessage } from "@/lib/api-error";
 import { useCreateUnavailability } from "../hooks/use-create-unavailability";
 import { unavailabilitySchema, type UnavailabilityFormValues } from "../schemas/barbers.schemas";
 
-/** [PLANEJADO] `POST /barbers/:id/unavailabilities` (spec §10.9, §14.6). */
+/** [PLANNED] `POST /barbers/:id/unavailabilities` (spec §10.9, §14.6). */
 export function UnavailabilityForm({ barberId }: { barberId: string }) {
   const [open, setOpen] = useState(false);
   const { mutate, isPending } = useCreateUnavailability(barberId);

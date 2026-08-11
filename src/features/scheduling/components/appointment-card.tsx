@@ -13,7 +13,7 @@ interface AppointmentCardProps {
   showCustomer?: boolean;
 }
 
-/** Card label/valor usado como fallback mobile do `DataTable` de agendamentos (spec §23). */
+/** Card label/value used as the mobile fallback for the appointments `DataTable` (spec §23). */
 export function AppointmentCard({ appointment, showCustomer }: AppointmentCardProps) {
   return (
     <Card>

@@ -9,7 +9,7 @@ import { useUser } from "../hooks/use-user";
 import { ChangePasswordForm } from "./change-password-form";
 import { ProfileCard } from "./profile-card";
 
-/** `/profile` (spec §13.5): own account data (Dados) + change password (Segurança). */
+/** `/profile` (spec §13.5): own account data (Data tab) + change password (Security tab). */
 export function ProfileContent() {
   const { user: authUser } = useAuth();
   const { data: user, isLoading, isError, refetch } = useUser(authUser?.id);

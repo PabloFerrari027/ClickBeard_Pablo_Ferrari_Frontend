@@ -18,7 +18,7 @@ import { formatDate, formatDateTime } from "@/lib/utils";
 import { useAppointment } from "../hooks/use-appointment";
 import { CancelByAdminDialog } from "./cancel-by-admin-dialog";
 
-/** `/admin/appointments/[id]` (spec §13.19) — ADMIN tem acesso a qualquer agendamento. */
+/** `/admin/appointments/[id]` (spec §13.19) — ADMIN has access to any appointment. */
 export function AdminAppointmentDetailContent({ appointmentId }: { appointmentId: string }) {
   const { data: appointment, isLoading, isError, refetch } = useAppointment(appointmentId);
   const [cancelOpen, setCancelOpen] = useState(false);

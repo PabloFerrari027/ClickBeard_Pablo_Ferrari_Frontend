@@ -3,7 +3,7 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { useUser } from "../hooks/use-user";
 
-/** Resolve nome do cliente nas listagens administrativas de agendamento (spec §11). */
+/** Resolves the customer's name in administrative appointment listings (spec §11). */
 export function CustomerName({ userId }: { userId: string }) {
   const { data, isLoading } = useUser(userId);
 
