@@ -9,7 +9,7 @@ import { AppSidebar } from "@/components/shared/app-sidebar";
 import { BARBER_NAV_ITEMS, CLIENT_NAV_ITEMS } from "@/components/shared/nav-items";
 import { useAuth } from "@/lib/auth-context";
 
-/** Sidebar + header do cliente, guarda de sessão (spec §6). CLIENT/BARBER/ADMIN autenticados. */
+/** Client-area sidebar + header, session guard (spec §6). Authenticated CLIENT/BARBER/ADMIN. */
 export default function ClientAreaLayout({
   children,
 }: {

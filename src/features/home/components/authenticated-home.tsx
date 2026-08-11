@@ -31,7 +31,7 @@ const GREETING_SUBTITLE: Record<UserRole, string> = {
   ADMIN: "Aqui está um resumo do sistema.",
 };
 
-/** Home autenticada (dashboard inicial) — atalhos e resumo adaptados ao `user.role`. */
+/** Authenticated home (initial dashboard) — shortcuts and summary adapted to `user.role`. */
 export function AuthenticatedHome({ user }: { user: User }) {
   const navItems =
     user.role === "ADMIN"
@@ -94,7 +94,7 @@ export function AuthenticatedHome({ user }: { user: User }) {
   );
 }
 
-/** CLIENT/BARBER: próximo agendamento futuro. Considera apenas a página 1 de `/appointments/me` — melhor esforço, não uma busca exaustiva. */
+/** CLIENT/BARBER: next upcoming appointment. Only considers page 1 of `/appointments/me` — best effort, not an exhaustive search. */
 function NextAppointmentSummary() {
   const { data, isLoading, isError, refetch } = useMyAppointments(1);
 
@@ -153,7 +153,7 @@ function NextAppointmentSummary() {
   );
 }
 
-/** ADMIN: recorte curto das métricas de `/admin/dashboard`, não uma cópia do dashboard completo. */
+/** ADMIN: short excerpt of the metrics from `/admin/dashboard`, not a copy of the full dashboard. */
 function AdminSummary() {
   const { data, isLoading, isError, refetch } = useDashboardMetrics({ preset: "MONTH" });
 

@@ -15,10 +15,10 @@ interface AppSidebarProps {
 }
 
 /**
- * Fixa em desktop (w-64); colapsa para ícones em tablet (w-16, spec §8.2). O toggle manual
- * de expandir/colapsar descrito na spec foi simplificado para um comportamento puramente
- * responsivo por breakpoint — reduz estado sem perder o requisito central (ícones em tablet,
- * completa em desktop, escondida em mobile via `MobileNav`).
+ * Fixed on desktop (w-64); collapses to icons on tablet (w-16, spec §8.2). The manual
+ * expand/collapse toggle described in the spec was simplified to a purely
+ * breakpoint-driven responsive behavior — reduces state without losing the core requirement
+ * (icons on tablet, full on desktop, hidden on mobile via `MobileNav`).
  */
 export function AppSidebar({ items }: AppSidebarProps) {
   const pathname = usePathname();

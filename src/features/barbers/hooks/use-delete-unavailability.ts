@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { barbersService } from "../services/barbers.service";
 
-/** [PLANEJADO] spec §3.3 — não reativa agendamentos já cancelados. */
+/** [PLANNED] spec §3.3 — does not reactivate already-cancelled appointments. */
 export function useDeleteUnavailability(barberId: string) {
   const queryClient = useQueryClient();
 

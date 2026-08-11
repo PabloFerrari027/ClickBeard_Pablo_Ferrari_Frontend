@@ -4,8 +4,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useBarber } from "../hooks/use-barber";
 
 /**
- * Resolve o nome do barbeiro a partir do cache do TanStack Query (spec §11):
- * `AppointmentResponseDto` só traz `barberId`, não o nome.
+ * Resolves the barber's name from the TanStack Query cache (spec §11):
+ * `AppointmentResponseDto` only includes `barberId`, not the name.
  */
 export function BarberName({ barberId }: { barberId: string }) {
   const { data, isLoading } = useBarber(barberId);

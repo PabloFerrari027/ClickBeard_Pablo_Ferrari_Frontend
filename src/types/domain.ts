@@ -1,17 +1,17 @@
-/** Papéis de usuário — fixos, sem papel adicional possível (spec §2). */
+/** User roles — fixed, no additional role possible (spec §2). */
 export type UserRole = "CLIENT" | "BARBER" | "ADMIN";
 
-/** Status de um agendamento (spec §11, §13.9). */
+/** Status of an appointment (spec §11, §13.9). */
 export type AppointmentStatus = "SCHEDULED" | "CANCELLED";
 
-/** Presets de período usados em todas as 6 páginas de analytics (spec §9.2 PeriodFilter). */
+/** Period presets used across all 6 analytics pages (spec §9.2 PeriodFilter). */
 export type PeriodPreset = "TODAY" | "WEEK" | "MONTH" | "YEAR" | "CUSTOM";
 
 /**
- * Corpo de erro cru retornado pela API. Duas origens distintas (spec §2):
- * - domínio (`DomainErrorFilter`): `error` é o nome exato da classe (ex. "UserIsNotAdminError").
- * - guard/validação Nest: `error` é a string genérica do status HTTP ("Unauthorized", "Forbidden",
- *   "Bad Request") e `message` pode ser um array de strings.
+ * Raw error body returned by the API. Two distinct origins (spec §2):
+ * - domain (`DomainErrorFilter`): `error` is the exact class name (e.g. "UserIsNotAdminError").
+ * - Nest guard/validation: `error` is the generic HTTP status string ("Unauthorized", "Forbidden",
+ *   "Bad Request") and `message` may be an array of strings.
  */
 export interface ApiErrorBody {
   statusCode: number;

@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { CACHE_RESOURCE_STALE_TIME } from "@/lib/cache-resources";
 import { barbersService } from "../services/barbers.service";
 
-/** [PLANEJADO] spec §3.3 — sem paginação. */
+/** [PLANNED] spec §3.3 — no pagination. */
 export function useListUnavailabilities(barberId: string | undefined) {
   return useQuery({
     queryKey: ["barbers", "unavailabilities", barberId],

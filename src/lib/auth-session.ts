@@ -1,8 +1,8 @@
 /**
- * Estado de sessão em memória, fora do React (spec §12.1: access token nunca em
- * localStorage/cookie legível por JS). `api-client.ts` e `auth-context.tsx`
- * compartilham este módulo para não criar dependência circular entre um
- * `service` (que nunca importa React, spec §22) e o Context.
+ * In-memory session state, outside React (spec §12.1: access token never in
+ * localStorage/JS-readable cookie). `api-client.ts` and `auth-context.tsx`
+ * share this module to avoid creating a circular dependency between a
+ * `service` (which never imports React, spec §22) and the Context.
  */
 
 type Listener = () => void;
@@ -32,7 +32,7 @@ export function clearAccessToken(): void {
   accessTokenExpiresAt = null;
 }
 
-/** `AuthProvider` se inscreve para reagir a uma falha de refresh (logout forçado + redirect, spec §12.2). */
+/** `AuthProvider` subscribes to react to a refresh failure (forced logout + redirect, spec §12.2). */
 export function onSessionExpired(listener: Listener): () => void {
   sessionExpiredListeners.add(listener);
   return () => sessionExpiredListeners.delete(listener);

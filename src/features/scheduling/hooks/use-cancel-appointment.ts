@@ -6,8 +6,8 @@ import { appointmentsService } from "../services/appointments.service";
 import type { Appointment, AppointmentsListResponse } from "@/types/api";
 
 /**
- * Único caso de optimistic update da aplicação (spec §17): marca `CANCELLED` na lista/detalhe
- * antes da confirmação do servidor, revertendo em erro. O risco de rollback aqui é baixo.
+ * The application's only optimistic update case (spec §17): marks `CANCELLED` in the list/detail
+ * before server confirmation, rolling back on error. The rollback risk here is low.
  */
 export function useCancelAppointment(id: string) {
   const queryClient = useQueryClient();

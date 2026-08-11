@@ -7,7 +7,7 @@ import { PageHeader } from "@/components/shared/page-header";
 import { useBarber } from "../hooks/use-barber";
 import { EditBarberForm } from "./barber-form";
 
-/** `/admin/barbers/[id]/edit` (spec §13.16) — pré-popula a partir de `GET /barbers/:id`. */
+/** `/admin/barbers/[id]/edit` (spec §13.16) — pre-populates from `GET /barbers/:id`. */
 export function EditBarberContent({ barberId }: { barberId: string }) {
   const { data: barber, isLoading, isError, refetch } = useBarber(barberId);
 

@@ -23,7 +23,7 @@ const BusiestDaysChart = dynamic(
   { ssr: false }
 );
 
-/** `/admin/dashboard` (spec §13.11) — visão consolidada, cada bloco linka para a página de analytics específica. */
+/** `/admin/dashboard` (spec §13.11) — consolidated view, each block links to its specific analytics page. */
 export function DashboardContent() {
   const [period, setPeriod] = useState<PeriodFilterValue>({ preset: "MONTH" });
   const { data, isLoading, isError, isFetching, refetch } = useDashboardMetrics(period);

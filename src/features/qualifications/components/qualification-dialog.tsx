@@ -33,12 +33,12 @@ import { qualificationSchema, type QualificationFormValues } from "../schemas/qu
 import type { Qualification } from "@/types/api";
 
 interface QualificationDialogProps {
-  /** Presente = modo edição (spec §13.17, `EditQualificationDialog`); ausente = criação. */
+  /** Present = edit mode (spec §13.17, `EditQualificationDialog`); absent = create. */
   qualification?: Qualification;
   trigger: ReactNode;
 }
 
-/** `POST /qualifications` + `PATCH /qualifications/:id` (spec §10.6, §13.17), num único Dialog. */
+/** `POST /qualifications` + `PATCH /qualifications/:id` (spec §10.6, §13.17), in a single Dialog. */
 export function QualificationDialog({ qualification, trigger }: QualificationDialogProps) {
   const [open, setOpen] = useState(false);
   const isEdit = Boolean(qualification);

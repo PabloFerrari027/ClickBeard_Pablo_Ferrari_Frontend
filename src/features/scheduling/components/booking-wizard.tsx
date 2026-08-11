@@ -31,8 +31,8 @@ function startOfToday(): Date {
 }
 
 /**
- * Wizard de 4 passos (spec §10.7, §13.8): barbeiro → qualificação → data → horário → confirmar.
- * Cada mudança de passo anterior invalida a seleção de horário e força nova consulta.
+ * 4-step wizard (spec §10.7, §13.8): barber → qualification → date → time → confirm.
+ * Any change to an earlier step invalidates the time slot selection and forces a new query.
  */
 export function BookingWizard() {
   const router = useRouter();
@@ -48,7 +48,7 @@ export function BookingWizard() {
   const [slot, setSlot] = useState<string | null>(null);
 
   const { data: barbersPage, isLoading: loadingBarbers } = useBarbers(1);
-  // Um barbeiro não pode agendar consigo mesmo.
+  // A barber cannot book an appointment with themselves.
   const bookableBarbers =
     barbersPage?.barbers.filter((barber) => barber.userId !== user?.id) ?? [];
 

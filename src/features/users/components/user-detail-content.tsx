@@ -20,7 +20,7 @@ import { useDeactivateUser } from "../hooks/use-deactivate-user";
 import { useUser } from "../hooks/use-user";
 import { ChangeRoleDialog } from "./change-role-dialog";
 
-/** `/admin/users/[id]` (spec §13.20) — gestão de usuário, alcançada pela tabela `/admin/users`. */
+/** `/admin/users/[id]` (spec §13.20) — user management, reached from the `/admin/users` table. */
 export function UserDetailContent({ userId }: { userId: string }) {
   const { data: user, isLoading, isError, error, refetch } = useUser(userId);
   const [confirmOpen, setConfirmOpen] = useState(false);

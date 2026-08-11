@@ -27,7 +27,7 @@ import { useAddQualification } from "../hooks/use-add-qualification";
 import { useRemoveQualification } from "../hooks/use-remove-qualification";
 import type { Barber } from "@/types/api";
 
-/** Aba "Qualificações" do detalhe admin de barbeiro (spec §13.15). */
+/** "Qualifications" tab of the admin barber detail view (spec §13.15). */
 export function BarberQualificationsPanel({ barber }: { barber: Barber }) {
   const [addOpen, setAddOpen] = useState(false);
   const [selected, setSelected] = useState("");

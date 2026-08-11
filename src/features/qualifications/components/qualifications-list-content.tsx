@@ -11,7 +11,7 @@ import { ErrorState } from "@/components/shared/error-state";
 import { PageHeader } from "@/components/shared/page-header";
 import { useQualifications } from "../hooks/use-qualifications";
 
-/** `/qualifications` (cliente, spec §13.7) — catálogo somente leitura, sem paginação. */
+/** `/qualifications` (client, spec §13.7) — read-only catalog, no pagination. */
 export function QualificationsListContent() {
   const { data: qualifications = [], isLoading, isError, refetch } = useQualifications();
   const [search, setSearch] = useState("");

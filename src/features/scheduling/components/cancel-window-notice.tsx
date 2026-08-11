@@ -5,12 +5,12 @@ import { MIN_APPOINTMENT_NOTICE_HOURS } from "@/lib/business-rules";
 
 const NOTICE_MS = MIN_APPOINTMENT_NOTICE_HOURS * 60 * 60 * 1000;
 
-/** Calcula `startAt - now` (spec §9.2) — usado pela UI para decidir se o botão de cancelar aparece. */
+/** Computes `startAt - now` (spec §9.2) — used by the UI to decide whether the cancel button appears. */
 export function isWithinCancelWindow(startAt: string): boolean {
   return new Date(startAt).getTime() - Date.now() >= NOTICE_MS;
 }
 
-/** Alerta inline quando a janela de 2h já expirou — desabilita o botão antes do round-trip. */
+/** Inline alert for when the 2h window has already expired — disables the button before the round-trip. */
 export function CancelWindowNotice({ startAt }: { startAt: string }) {
   if (isWithinCancelWindow(startAt)) return null;
 

@@ -8,7 +8,7 @@ export interface CreateQualificationPayload {
 
 export type UpdateQualificationPayload = Partial<CreateQualificationPayload>;
 
-/** `GET /qualifications` não pagina — retorna array puro na raiz (spec §2, §3.4). */
+/** `GET /qualifications` doesn't paginate — returns a plain array at the root (spec §2, §3.4). */
 export const qualificationsService = {
   list(): Promise<Qualification[]> {
     return apiFetch<Qualification[]>("/qualifications");

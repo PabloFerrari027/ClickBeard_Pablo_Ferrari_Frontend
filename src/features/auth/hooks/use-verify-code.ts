@@ -11,8 +11,8 @@ interface VerifyCodeInput {
 }
 
 /**
- * `validate` → dispara `complete` automaticamente em sucesso → grava sessão (spec §10.3).
- * A UI nunca chama `complete` diretamente; este hook encadeia os dois passos.
+ * `validate` → automatically triggers `complete` on success → saves the session (spec §10.3).
+ * The UI never calls `complete` directly; this hook chains the two steps.
  */
 export function useVerifyCode() {
   const { establishSession } = useAuth();

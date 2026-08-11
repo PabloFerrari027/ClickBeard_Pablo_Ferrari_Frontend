@@ -39,9 +39,9 @@ const PRESET_LABELS: Record<PeriodPreset, string> = {
 const PRESETS: PeriodPreset[] = ["TODAY", "WEEK", "MONTH", "YEAR", "CUSTOM"];
 
 /**
- * Seletor de preset + range picker para CUSTOM, reusado nas 6 páginas de
- * analytics (spec §6, §9.2). Presets fixos nunca enviam `startAt`/`endAt`;
- * CUSTOM exige ambos antes de habilitar "Aplicar" (evita `CustomRangeRequiredError`).
+ * Preset selector + range picker for CUSTOM, reused across the 6
+ * analytics pages (spec §6, §9.2). Fixed presets never send `startAt`/`endAt`;
+ * CUSTOM requires both before enabling "Apply" (avoids `CustomRangeRequiredError`).
  */
 export function PeriodFilter({ value, onChange }: PeriodFilterProps) {
   const [draftStart, setDraftStart] = useState<Date | undefined>(

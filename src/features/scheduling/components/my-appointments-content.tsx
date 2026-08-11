@@ -25,7 +25,7 @@ import { CancelAppointmentDialog } from "./cancel-appointment-dialog";
 import { isWithinCancelWindow } from "./cancel-window-notice";
 import type { Appointment } from "@/types/api";
 
-/** `/appointments` (cliente, spec §13.9) — todos os próprios agendamentos, qualquer status. */
+/** `/appointments` (customer, spec §13.9) — all of the user's own appointments, any status. */
 export function MyAppointmentsContent() {
   const [page, setPage] = useState(1);
   const router = useRouter();

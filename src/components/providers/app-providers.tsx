@@ -10,12 +10,12 @@ import { AuthProvider } from "@/lib/auth-context";
 import { makeQueryClient } from "@/lib/query-client";
 
 /**
- * Composição de providers do root layout (spec §4.3, §6): `AuthProvider` expõe
+ * Root layout provider composition (spec §4.3, §6): `AuthProvider` exposes
  * `{user, accessToken, isLoading, login, logout}` via Context; `QueryClientProvider`
- * dá cache/loading/erro padronizados a todo hook de feature; `Toaster` é o único
- * mecanismo de feedback assíncrono (spec §16). Dark mode não é um requisito de
- * produto (spec §7.1) — `ThemeProvider` fica travado em "light", apenas para o
- * `sonner` resolver seu tema sem warning.
+ * gives every feature hook standardized cache/loading/error handling; `Toaster` is the
+ * single async feedback mechanism (spec §16). Dark mode is not a product
+ * requirement (spec §7.1) — `ThemeProvider` stays locked to "light", solely so
+ * `sonner` can resolve its theme without a warning.
  */
 export function AppProviders({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => makeQueryClient());

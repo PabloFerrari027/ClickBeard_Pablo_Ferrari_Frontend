@@ -15,7 +15,7 @@ import { formatDate } from "@/lib/utils";
 import { useUsers } from "../hooks/use-users";
 import type { User } from "@/types/api";
 
-/** `/admin/users` — tabela paginada de usuários (`GET /users`), única forma de listagem. */
+/** `/admin/users` — paginated user table (`GET /users`), the only way to list them. */
 export function AdminUsersTableContent() {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");

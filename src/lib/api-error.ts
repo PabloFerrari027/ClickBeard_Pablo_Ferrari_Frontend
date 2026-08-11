@@ -8,9 +8,9 @@ const GUARD_ERROR_CODES = new Set([
 ]);
 
 /**
- * Erro lançado por todo `service` (spec §4.4). Encapsula os dois formatos de
- * resposta de erro da API: domínio (`error` = nome exato da classe) e
- * guard/validação Nest (`error` = string genérica do status HTTP).
+ * Error thrown by every `service` (spec §4.4). Encapsulates the two API error
+ * response formats: domain (`error` = exact class name) and
+ * Nest guard/validation (`error` = generic HTTP status string).
  */
 export class ApiError extends Error {
   constructor(
@@ -26,7 +26,7 @@ export class ApiError extends Error {
     return new ApiError(statusCode, body.error, body.message);
   }
 
-  /** `true` quando `error` é o nome de uma classe de domínio, não uma string genérica de guard/validação. */
+  /** `true` when `error` is a domain class name, not a generic guard/validation string. */
   get isDomainError(): boolean {
     return !GUARD_ERROR_CODES.has(this.code);
   }
@@ -37,8 +37,8 @@ export class ApiError extends Error {
 }
 
 /**
- * Mapa central `code -> mensagem amigável em português` (spec §4.4, critério de aceite §27 item 4).
- * Todo hook de mutação usa este mapa antes de recorrer ao fallback de `rawMessage`.
+ * Central `code -> friendly Portuguese message` map (spec §4.4, acceptance criterion §27 item 4).
+ * Every mutation hook uses this map before falling back to `rawMessage`.
  */
 export const domainErrorMessages: Record<string, string> = {
   // identity
@@ -97,7 +97,7 @@ export const domainErrorMessages: Record<string, string> = {
   CustomRangeRequiredError:
     "Informe o início e o fim do período para o filtro personalizado.",
 
-  // guard/validação genéricos
+  // generic guard/validation
   Unauthorized: "Sua sessão expirou. Faça login novamente.",
   Forbidden: "Você não tem permissão para esta ação.",
   "Not Found": "Não encontrado.",
@@ -107,7 +107,7 @@ const FALLBACK_MESSAGE = "Algo deu errado. Tente novamente.";
 const RATE_LIMIT_MESSAGE =
   "Muitas requisições. Aguarde um momento e tente novamente.";
 
-/** Resolve a mensagem amigável final para um `ApiError`, com os fallbacks descritos na spec §4.4/§12.4. */
+/** Resolves the final friendly message for an `ApiError`, with the fallbacks described in spec §4.4/§12.4. */
 export function resolveErrorMessage(error: ApiError): string {
   if (error.statusCode === 429) return RATE_LIMIT_MESSAGE;
 

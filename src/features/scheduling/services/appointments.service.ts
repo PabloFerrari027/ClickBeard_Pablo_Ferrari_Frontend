@@ -62,7 +62,7 @@ export const appointmentsService = {
     });
   },
 
-  // [PLANEJADO] — spec §3.5, atrás de PLANNED_FEATURES_ENABLED
+  // [PLANNED] — spec §3.5, behind PLANNED_FEATURES_ENABLED
   cancelByAdmin(id: string, payload: CancelByAdminPayload): Promise<Appointment> {
     return apiFetch<Appointment>(`/appointments/${id}/cancel`, {
       method: "PATCH",

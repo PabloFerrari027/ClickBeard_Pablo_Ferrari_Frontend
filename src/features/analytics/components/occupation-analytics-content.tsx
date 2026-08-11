@@ -14,7 +14,7 @@ import { AnalyticsPageHeader } from "./analytics-page-header";
 import { MetricCard } from "./metric-card";
 import { OccupancyTable } from "./occupancy-table";
 
-/** `/admin/analytics/occupation` (spec §13.12) — "Horários livres" sempre referentes a hoje. */
+/** `/admin/analytics/occupation` (spec §13.12) — "Horários livres" always refers to today. */
 export function OccupationAnalyticsContent() {
   const [period, setPeriod] = useState<PeriodFilterValue>({ preset: "MONTH" });
   const { data, isLoading, isError, isFetching, refetch } = useOccupationMetrics(period);

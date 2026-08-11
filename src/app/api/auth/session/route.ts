@@ -5,8 +5,8 @@ import { API_URL } from "@/lib/env";
 import { REFRESH_TOKEN_COOKIE } from "@/lib/session-cookie";
 
 /**
- * Setado pelo client logo após POST /account-verification/complete responder
- * (spec §12.1) — nunca expõe o refresh token a JavaScript.
+ * Set by the client right after POST /account-verification/complete responds
+ * (spec §12.1) — never exposes the refresh token to JavaScript.
  */
 export async function POST(request: Request) {
   const { refreshToken, refreshTokenExpiresAt } = (await request.json()) as {
@@ -33,7 +33,7 @@ export async function POST(request: Request) {
   return new NextResponse(null, { status: 204 });
 }
 
-/** Logout (spec §3.2, §12.1): revoga o refresh token na API e limpa o cookie local. */
+/** Logout (spec §3.2, §12.1): revokes the refresh token on the API and clears the local cookie. */
 export async function DELETE() {
   const cookieStore = await cookies();
   const refreshToken = cookieStore.get(REFRESH_TOKEN_COOKIE)?.value;
@@ -46,7 +46,7 @@ export async function DELETE() {
         body: JSON.stringify({ refreshToken }),
       });
     } catch {
-      // best-effort — a sessão local é limpa de qualquer forma
+      // best-effort — the local session is cleared either way
     }
   }
 

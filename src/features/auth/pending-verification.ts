@@ -1,8 +1,8 @@
 /**
- * Estado transitório entre /login e /login/verify (spec §12.1): guardado em memória,
- * NUNCA persistido — se o usuário recarregar a página em /login/verify, este módulo
- * reseta e a tela redireciona de volta para /login (não há como recuperar isso da
- * API sem repetir o login).
+ * Transient state between /login and /login/verify (spec §12.1): kept in memory,
+ * NEVER persisted — if the user reloads the page on /login/verify, this module
+ * resets and the screen redirects back to /login (there is no way to recover
+ * this from the API without repeating the login).
  */
 export interface PendingVerification {
   userId: string;

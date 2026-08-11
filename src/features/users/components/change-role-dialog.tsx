@@ -32,10 +32,10 @@ const ALL_ROLE_OPTIONS: { value: UserRole; label: string }[] = [
 ];
 
 /**
- * `PATCH /users/:id/role` (spec §3.1, §13.20) — desabilita a opção igual ao papel atual.
- * Promoção para Barbeiro não é mais permitida por aqui: cadastro de barbeiro passa pelo
- * formulário próprio. A opção só aparece quando o usuário já é barbeiro, permitindo apenas
- * a regressão dele para Cliente/Administrador.
+ * `PATCH /users/:id/role` (spec §3.1, §13.20) — disables the option matching the current role.
+ * Promotion to Barber is no longer allowed here: barber registration goes through its own
+ * dedicated form. The option only appears when the user is already a barber, allowing only
+ * downgrading them to Client/Admin.
  */
 export function ChangeRoleDialog({
   userId,

@@ -39,13 +39,13 @@ interface DataTableProps<TData, TValue> {
   emptyDescription?: string;
   emptyAction?: ReactNode;
   onRowClick?: (row: TData) => void;
-  /** Renderiza cada linha como card empilhado abaixo de md — nunca scroll horizontal forçado (spec §23). */
+  /** Renders each row as a stacked card below md — never forced horizontal scroll (spec §23). */
   renderMobileCard?: (row: TData) => ReactNode;
 }
 
 /**
- * Wrapper genérico sobre `@tanstack/react-table` + paginação server-side (spec §6, §9.2).
- * Resolve loading/empty/error/success de forma consistente nas 10 listagens paginadas da aplicação.
+ * Generic wrapper over `@tanstack/react-table` + server-side pagination (spec §6, §9.2).
+ * Handles loading/empty/error/success consistently across the app's 10 paginated listings.
  */
 export function DataTable<TData, TValue>({
   columns,

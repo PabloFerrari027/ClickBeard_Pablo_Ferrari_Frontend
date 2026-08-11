@@ -18,7 +18,7 @@ import { useAppointment } from "../hooks/use-appointment";
 import { CancelAppointmentDialog } from "./cancel-appointment-dialog";
 import { CancelWindowNotice, isWithinCancelWindow } from "./cancel-window-notice";
 
-/** `/appointments/[id]` (cliente, spec §13.10) — detalhe próprio + cancelamento. */
+/** `/appointments/[id]` (customer, spec §13.10) — own appointment detail + cancellation. */
 export function AppointmentDetailContent({ appointmentId }: { appointmentId: string }) {
   const { data: appointment, isLoading, isError, error, refetch } = useAppointment(appointmentId);
   const [cancelOpen, setCancelOpen] = useState(false);

@@ -3,7 +3,7 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { useQualifications } from "../hooks/use-qualifications";
 
-/** Resolve o nome via a lista completa já cacheada (`GET /qualifications` não pagina, spec §11). */
+/** Resolves the name via the already-cached full list (`GET /qualifications` doesn't paginate, spec §11). */
 export function QualificationName({ qualificationId }: { qualificationId: string }) {
   const { data, isLoading } = useQualifications();
 

@@ -37,10 +37,10 @@ interface AdminAppointmentsListContentProps {
 }
 
 /**
- * Base compartilhada de `/admin/appointments/today` e `/admin/appointments/future` (spec §13.18).
- * Recebe a query já invocada (em vez de um hook-factory) porque cada página passa parâmetros
- * diferentes ao hook (ex.: `future` também envia período) — chamar o hook aqui dentro de uma
- * closure quebraria as regras de Hooks.
+ * Shared base for `/admin/appointments/today` and `/admin/appointments/future` (spec §13.18).
+ * Receives the already-invoked query (instead of a hook-factory) because each page passes
+ * different parameters to the hook (e.g. `future` also sends a period) — calling the hook here
+ * inside a closure would break the Rules of Hooks.
  */
 export function AdminAppointmentsListContent({
   title,

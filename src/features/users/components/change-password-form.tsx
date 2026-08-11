@@ -19,7 +19,7 @@ import { ApiError, resolveErrorMessage } from "@/lib/api-error";
 import { useChangePassword } from "../hooks/use-change-password";
 import { changePasswordSchema, type ChangePasswordFormValues } from "../schemas/users.schemas";
 
-/** `PATCH /users/:id/password` (spec §10.4) — não desloga, a sessão atual continua válida. */
+/** `PATCH /users/:id/password` (spec §10.4) — does not log out, the current session remains valid. */
 export function ChangePasswordForm({ userId }: { userId: string }) {
   const { mutate, isPending } = useChangePassword(userId);
 

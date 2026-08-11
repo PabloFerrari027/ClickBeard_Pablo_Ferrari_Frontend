@@ -8,7 +8,7 @@ import type { FutureAppointmentsPeriod } from "../services/appointments.service"
 import { AdminAppointmentsListContent } from "./admin-appointments-list-content";
 import { AppointmentsPeriodFilter } from "./appointments-period-filter";
 
-/** `/future` inclui cancelados que ainda estão no futuro (spec §13.18) — coluna Status deixa isso visível. */
+/** `/future` includes cancelled appointments that are still in the future (spec §13.18) — the Status column makes this visible. */
 export function AdminFutureAppointmentsContent() {
   const [page, setPage] = useState(1);
   const [period, setPeriod] = useState<FutureAppointmentsPeriod>({});

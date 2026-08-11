@@ -1,8 +1,8 @@
 /**
- * As 4 rotas marcadas [PLANEJADO] na spec (cancelamento administrativo com
- * motivo, CRUD de indisponibilidade de barbeiro) dependem de endpoints ainda
- * não confirmados como implantados em produção (spec §1, Apêndice item 9).
- * Ficam escondidas de navegação/UI até o backend confirmar — mas o código
- * já existe, pronto para ligar trocando esta flag.
+ * The 4 routes marked [PLANNED] in the spec (administrative cancellation with
+ * reason, barber unavailability CRUD) depend on endpoints not yet
+ * confirmed as deployed to production (spec §1, Appendix item 9).
+ * They stay hidden from navigation/UI until the backend confirms — but the code
+ * already exists, ready to turn on by flipping this flag.
  */
 export const PLANNED_FEATURES_ENABLED = false;
