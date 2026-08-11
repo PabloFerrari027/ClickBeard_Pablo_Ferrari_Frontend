@@ -11,8 +11,8 @@ import { ADMIN_NAV_ITEMS } from "@/components/shared/nav-items";
 import { useAuth } from "@/lib/auth-context";
 
 /**
- * Sidebar admin, guarda de role ADMIN (spec §4.3, §6, §12.3) — defesa em profundidade de UX,
- * nunca a fonte real de autorização (isso está 100% no backend).
+ * Admin sidebar, ADMIN role guard (spec §4.3, §6, §12.3) — UX defense in depth,
+ * never the real source of authorization (that is 100% on the backend).
  */
 export default function AdminAreaLayout({
   children,

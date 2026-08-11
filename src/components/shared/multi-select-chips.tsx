@@ -13,7 +13,7 @@ interface MultiSelectChipsProps {
   emptyMessage?: string;
 }
 
-/** Multi-seleção por chips clicáveis — alternativa simples ao `Command` com checkboxes (spec §10.5). */
+/** Multi-select via clickable chips — a simple alternative to `Command` with checkboxes (spec §10.5). */
 export function MultiSelectChips({
   options,
   value,

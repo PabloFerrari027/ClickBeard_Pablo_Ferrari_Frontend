@@ -29,7 +29,7 @@ import {
   type UpdateBarberFormValues,
 } from "../schemas/barbers.schemas";
 
-/** Criar (`POST /barbers`, spec §10.5). `email` é texto livre — não há `GET /users?role=BARBER`. */
+/** Create (`POST /barbers`, spec §10.5). `email` is free text — there is no `GET /users?role=BARBER`. */
 export function CreateBarberForm() {
   const router = useRouter();
   const { mutate, isPending } = useCreateBarber();
@@ -146,7 +146,7 @@ interface EditBarberFormProps {
   defaultValues: UpdateBarberFormValues;
 }
 
-/** Editar (`PATCH /barbers/:id`, spec §10.5) — mesmo par de campos, sem `userId`/`qualificationIds`. */
+/** Edit (`PATCH /barbers/:id`, spec §10.5) — same pair of fields, without `userId`/`qualificationIds`. */
 export function EditBarberForm({ barberId, defaultValues }: EditBarberFormProps) {
   const router = useRouter();
   const { mutate, isPending } = useUpdateBarber(barberId);

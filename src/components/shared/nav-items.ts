@@ -2,7 +2,7 @@ import { Calendar, Clock, Home, LayoutDashboard, Scissors, Sparkles, User, Users
 
 import type { NavItem } from "./nav-item";
 
-/** Navegação de CLIENT, compartilhada entre `(client)/layout.tsx` e o dashboard (`/dashboard`). Sem "Qualificações": o cliente já escolhe a qualificação dentro do fluxo de agendamento, um catálogo à parte não tem uso pra ele. */
+/** CLIENT navigation, shared between `(client)/layout.tsx` and the dashboard (`/dashboard`). No "Qualifications": the client already picks the qualification within the booking flow, a separate catalog has no use for them. */
 export const CLIENT_NAV_ITEMS: NavItem[] = [
   { label: "Início", href: "/dashboard", icon: Home },
   { label: "Meus agendamentos", href: "/appointments", icon: Calendar },
@@ -10,7 +10,7 @@ export const CLIENT_NAV_ITEMS: NavItem[] = [
   { label: "Meu perfil", href: "/profile", icon: User },
 ];
 
-/** Navegação de BARBER, compartilhada entre `(client)/layout.tsx` e o dashboard (`/dashboard`). */
+/** BARBER navigation, shared between `(client)/layout.tsx` and the dashboard (`/dashboard`). */
 export const BARBER_NAV_ITEMS: NavItem[] = [
   { label: "Início", href: "/dashboard", icon: Home },
   { label: "Meus agendamentos", href: "/appointments", icon: Calendar },
@@ -19,7 +19,7 @@ export const BARBER_NAV_ITEMS: NavItem[] = [
   { label: "Meu perfil", href: "/profile", icon: User },
 ];
 
-/** Navegação ADMIN, compartilhada entre `(admin)/layout.tsx` e o dashboard (`/dashboard`). */
+/** ADMIN navigation, shared between `(admin)/layout.tsx` and the dashboard (`/dashboard`). */
 export const ADMIN_NAV_ITEMS: NavItem[] = [
   { label: "Início", href: "/dashboard", icon: Home },
   { label: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },

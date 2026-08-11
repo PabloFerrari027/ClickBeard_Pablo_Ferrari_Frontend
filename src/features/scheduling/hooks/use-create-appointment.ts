@@ -8,9 +8,9 @@ import {
 } from "../services/appointments.service";
 
 /**
- * Invalida os mesmos 4 prefixos que o backend invalida internamente (spec §4.2):
- * `appointments:me`, `appointments:today`, `appointments:future`, `timeSlots` do slot escolhido.
- * Sem optimistic update — o risco de `BarberTimeSlotConflictError` é real e frequente (spec §17).
+ * Invalidates the same 4 prefixes the backend invalidates internally (spec §4.2):
+ * `appointments:me`, `appointments:today`, `appointments:future`, `timeSlots` for the chosen slot.
+ * No optimistic update — the risk of `BarberTimeSlotConflictError` is real and frequent (spec §17).
  */
 export function useCreateAppointment() {
   const queryClient = useQueryClient();

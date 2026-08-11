@@ -9,7 +9,7 @@ import { useUser } from "../hooks/use-user";
 import { ChangePasswordForm } from "./change-password-form";
 import { ProfileCard } from "./profile-card";
 
-/** `/profile` (spec §13.5): dados da própria conta (Dados) + trocar senha (Segurança). */
+/** `/profile` (spec §13.5): own account data (Dados) + change password (Segurança). */
 export function ProfileContent() {
   const { user: authUser } = useAuth();
   const { data: user, isLoading, isError, refetch } = useUser(authUser?.id);

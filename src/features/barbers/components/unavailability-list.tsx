@@ -22,7 +22,7 @@ import { formatDateTime } from "@/lib/utils";
 import { useDeleteUnavailability } from "../hooks/use-delete-unavailability";
 import { useListUnavailabilities } from "../hooks/use-list-unavailabilities";
 
-/** [PLANEJADO] `GET`/`DELETE /barbers/:id/unavailabilities` — sem paginação (spec §2, §13.15). */
+/** [PLANNED] `GET`/`DELETE /barbers/:id/unavailabilities` — no pagination (spec §2, §13.15). */
 export function UnavailabilityList({ barberId }: { barberId: string }) {
   const { data, isLoading, isError, refetch } = useListUnavailabilities(barberId);
   const deleteUnavailability = useDeleteUnavailability(barberId);

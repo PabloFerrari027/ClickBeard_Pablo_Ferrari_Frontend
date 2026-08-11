@@ -24,9 +24,9 @@ import type { Barber } from "@/types/api";
 const MAX_VISIBLE_QUALIFICATIONS = 3;
 
 /**
- * `/admin/barbers` (spec §13.13). Coluna "Status" (ativo/inativo) foi omitida —
- * `BarberResponseDto` não retorna o `active` do usuário subjacente e chamar
- * `GET /users/:id` por linha não escala (spec §11, INFORMAÇÃO AUSENTE NA API item 4).
+ * `/admin/barbers` (spec §13.13). The "Status" column (active/inactive) was omitted —
+ * `BarberResponseDto` doesn't return the underlying user's `active` field, and calling
+ * `GET /users/:id` per row doesn't scale (spec §11, INFORMATION MISSING FROM API item 4).
  */
 export function AdminBarbersTableContent() {
   const [page, setPage] = useState(1);

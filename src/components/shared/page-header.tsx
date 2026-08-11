@@ -6,7 +6,7 @@ interface PageHeaderProps {
   action?: ReactNode;
 }
 
-/** Título + descrição + ações da página — mesmo componente em toda a aplicação (spec §6, §25). */
+/** Page title + description + actions — the same component used across the entire application (spec §6, §25). */
 export function PageHeader({ title, description, action }: PageHeaderProps) {
   return (
     <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">

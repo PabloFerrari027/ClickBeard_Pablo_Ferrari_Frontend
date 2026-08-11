@@ -27,9 +27,9 @@ import {
 import type { CompleteVerificationResponse, User } from "@/types/api";
 
 interface AuthContextValue {
-  /** Usuário confirmado pela última chamada a `GET /users/:id` (fonte de verdade para role/active). */
+  /** User confirmed by the last call to `GET /users/:id` (source of truth for role/active). */
   user: User | null;
-  /** Preenchido a partir do cookie de conveniência para pintar header/sidebar antes do silent refresh (spec §12.1). */
+  /** Populated from the convenience cookie to paint header/sidebar before the silent refresh completes (spec §12.1). */
   optimisticUser: ConvenienceUser | null;
   isLoading: boolean;
   isAuthenticated: boolean;
@@ -37,14 +37,14 @@ interface AuthContextValue {
     tokens: CompleteVerificationResponse,
     userId: string
   ) => Promise<User>;
-  /** Sincroniza `user`/`optimisticUser`/cookie após uma edição bem-sucedida (ex.: `PATCH /users/:id/profile`). */
+  /** Syncs `user`/`optimisticUser`/cookie after a successful edit (e.g. `PATCH /users/:id/profile`). */
   updateUser: (user: User) => void;
   logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
-/** Refresh proativo ~1min antes de expirar (spec §12.2), dado o TTL curto de 15min do access token. */
+/** Proactive refresh ~1min before expiry (spec §12.2), given the access token's short 15min TTL. */
 const PROACTIVE_REFRESH_LEAD_MS = 60_000;
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -54,8 +54,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
   const [isLoading, setIsLoading] = useState(true);
   const refreshTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  // Quebra a referência circular entre scheduleProactiveRefresh e silentRefresh — lido
-  // apenas dentro do callback do setTimeout (evento assíncrono), nunca durante o render.
+  // Breaks the circular reference between scheduleProactiveRefresh and silentRefresh — read
+  // only inside the setTimeout callback (an async event), never during render.
   const silentRefreshRef = useRef<() => Promise<boolean>>(() => Promise.resolve(false));
 
   const scheduleProactiveRefresh = useCallback(() => {
@@ -111,7 +111,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
               writeUserCookie(fresh);
             }
           } catch {
-            // Mantém apenas o optimisticUser da cookie; a próxima chamada autenticada revalida.
+            // Keeps only the cookie's optimisticUser; the next authenticated call revalidates.
           }
         }
       }

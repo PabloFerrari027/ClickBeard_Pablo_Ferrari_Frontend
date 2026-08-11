@@ -10,9 +10,10 @@ const hiredAtSchema = z
   });
 
 /**
- * `age` fica como string no formulário (o `<input type="number">` já entrega isso) e só é
- * convertido para number no submit — `z.coerce.number()` faz o tipo de input do schema
- * divergir do tipo de output, o que quebra a tipagem de `useForm<T>` do react-hook-form.
+ * `age` stays as a string in the form (the `<input type="number">` already delivers it that
+ * way) and is only converted to a number on submit — `z.coerce.number()` makes the schema's
+ * input type diverge from its output type, which breaks `useForm<T>` typing in
+ * react-hook-form.
  */
 const ageSchema = z
   .string()
@@ -22,9 +23,9 @@ const ageSchema = z
   .refine((value) => Number(value) <= BARBER_MAX_AGE, `A idade máxima é ${BARBER_MAX_AGE}.`);
 
 /**
- * `email` é um `Input` de texto, não um dropdown de busca (spec §10.5,
- * INFORMAÇÃO AUSENTE NA API item 1): não existe `GET /users?role=BARBER`.
- * A API resolve o usuário pelo email — não é mais necessário colar o UUID.
+ * `email` is a text `Input`, not a search dropdown (spec §10.5,
+ * INFORMATION MISSING FROM API item 1): there is no `GET /users?role=BARBER`.
+ * The API resolves the user by email — pasting the UUID is no longer necessary.
  */
 export const createBarberSchema = z.object({
   email: z.email("Informe um email válido."),

@@ -6,8 +6,8 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
 
 /**
- * Layout dedicado, sem sidebar/header: card centralizado sobre fundo muted (spec §8.4).
- * Público — mas se já autenticado, redireciona para "/dashboard" (spec §13.1, §13.2).
+ * Dedicated layout, no sidebar/header: card centered over a muted background (spec §8.4).
+ * Public — but if already authenticated, redirects to "/dashboard" (spec §13.1, §13.2).
  */
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   const { isLoading, isAuthenticated } = useAuth();

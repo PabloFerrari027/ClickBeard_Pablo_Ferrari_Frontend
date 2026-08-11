@@ -54,7 +54,7 @@ export const barbersService = {
     });
   },
 
-  // [PLANEJADO] — spec §3.3, atrás de PLANNED_FEATURES_ENABLED
+  // [PLANNED] — spec §3.3, behind PLANNED_FEATURES_ENABLED
   listUnavailabilities(id: string): Promise<BarberUnavailabilitiesResponse> {
     return apiFetch<BarberUnavailabilitiesResponse>(`/barbers/${id}/unavailabilities`);
   },

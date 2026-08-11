@@ -1,10 +1,10 @@
 import type { UserRole } from "@/types/domain";
 
 /**
- * Cookie NÃO-httpOnly de conveniência (spec §12.1): guarda `{id,name,email,role}`
- * apenas para renderização imediata do header/sidebar antes do silent refresh
- * completar. Nunca é usado como fonte de autorização real — toda chamada
- * protegida depende do access token válido em memória.
+ * NON-httpOnly convenience cookie (spec §12.1): stores `{id,name,email,role}`
+ * only for immediate header/sidebar rendering before the silent refresh
+ * completes. Never used as a real authorization source — every protected
+ * call relies on the access token held valid in memory.
  */
 const USER_COOKIE = "clickbeard_user";
 const MAX_AGE_SECONDS = 60 * 60 * 24 * 30;

@@ -3,9 +3,9 @@ import { QueryClient } from "@tanstack/react-query";
 import { ApiError } from "./api-error";
 
 /**
- * Uma instância por sessão de browser (criada dentro do Provider via `useState`,
- * spec §17). Erros 401/403/404 não devem ser retentados automaticamente —
- * apenas falhas transitórias de rede.
+ * One instance per browser session (created inside the Provider via `useState`,
+ * spec §17). 401/403/404 errors should not be retried automatically —
+ * only transient network failures.
  */
 export function makeQueryClient(): QueryClient {
   return new QueryClient({

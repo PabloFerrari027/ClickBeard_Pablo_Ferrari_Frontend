@@ -6,9 +6,9 @@ import { REFRESH_TOKEN_COOKIE } from "@/lib/session-cookie";
 import type { RefreshTokenResponse } from "@/types/api";
 
 /**
- * Silent refresh (spec §12.2): lido pelo `api-client` em toda 401, e pelo
- * `AuthProvider` no boot da aplicação. O cookie httpOnly é enviado
- * automaticamente pelo browser; nunca chega a JavaScript no client.
+ * Silent refresh (spec §12.2): called by `api-client` on every 401, and by
+ * `AuthProvider` at application boot. The httpOnly cookie is sent
+ * automatically by the browser; it never reaches JavaScript on the client.
  */
 export async function POST() {
   const cookieStore = await cookies();

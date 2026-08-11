@@ -24,7 +24,7 @@ import { useQualifications } from "../hooks/use-qualifications";
 import { QualificationDialog } from "./qualification-dialog";
 import type { Qualification } from "@/types/api";
 
-/** `/admin/qualifications` (spec §13.17) — CRUD completo, listagem sem paginação (spec §2). */
+/** `/admin/qualifications` (spec §13.17) — full CRUD, unpaginated listing (spec §2). */
 export function AdminQualificationsTableContent() {
   const { data: qualifications = [], isLoading, isError, refetch } = useQualifications();
   const deleteMutation = useDeleteQualification();

@@ -21,7 +21,7 @@ import { ApiError } from "@/lib/api-error";
 import { useLogin } from "../hooks/use-login";
 import { loginSchema, type LoginFormValues } from "../schemas/auth.schemas";
 
-/** `POST /auth/login` (spec §10.2) — não recebe token, apenas confirma credenciais e dispara 2FA. */
+/** `POST /auth/login` (spec §10.2) — no token is returned, it only confirms credentials and triggers 2FA. */
 export function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();

@@ -35,8 +35,8 @@ interface CancelByAdminDialogProps {
 }
 
 /**
- * [PLANEJADO] `PATCH /appointments/:id/cancel` (spec §10.8) — `AlertDialog` com `Textarea`
- * embutida (não um `Dialog` separado, mantendo o padrão "ação destrutiva = AlertDialog").
+ * [PLANNED] `PATCH /appointments/:id/cancel` (spec §10.8) — `AlertDialog` with an embedded
+ * `Textarea` (not a separate `Dialog`, keeping the pattern "destructive action = AlertDialog").
  */
 export function CancelByAdminDialog({
   appointmentId,

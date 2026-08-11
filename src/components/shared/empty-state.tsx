@@ -8,7 +8,7 @@ interface EmptyStateProps {
   action?: ReactNode;
 }
 
-/** Estado vazio de qualquer listagem — nunca uma tabela "vazia" sem explicação (spec §9.2, §15). */
+/** Empty state for any listing — never an "empty" table without explanation (spec §9.2, §15). */
 export function EmptyState({ icon: Icon, title, description, action }: EmptyStateProps) {
   return (
     <div className="flex flex-col items-center justify-center gap-3 rounded-lg border border-dashed border-border px-6 py-16 text-center">

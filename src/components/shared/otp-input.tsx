@@ -16,8 +16,8 @@ interface OtpInputProps {
 }
 
 /**
- * Campo de N dígitos (spec §9.2): auto-avança ao digitar, suporta colar o código
- * completo, submit automático ao preencher todos os dígitos.
+ * N-digit field (spec §9.2): auto-advances while typing, supports pasting the full
+ * code, auto-submits once all digits are filled.
  */
 export function OtpInput({
   length = 6,

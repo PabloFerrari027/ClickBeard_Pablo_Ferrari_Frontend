@@ -17,7 +17,7 @@ import { BarberQualificationsPanel } from "./barber-qualifications-panel";
 import { UnavailabilityForm } from "./unavailability-form";
 import { UnavailabilityList } from "./unavailability-list";
 
-/** `/admin/barbers/[id]` (spec §13.15) — central de gestão: Dados, Qualificações, Indisponibilidades [PLANEJADO]. */
+/** `/admin/barbers/[id]` (spec §13.15) — management hub: Data, Qualifications, Unavailabilities [PLANNED]. */
 export function AdminBarberDetailContent({ barberId }: { barberId: string }) {
   const { data: barber, isLoading, isError, refetch } = useBarber(barberId);
 

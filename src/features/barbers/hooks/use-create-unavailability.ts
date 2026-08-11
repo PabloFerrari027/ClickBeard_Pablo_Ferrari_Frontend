@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { barbersService, type CreateUnavailabilityPayload } from "../services/barbers.service";
 
-/** [PLANEJADO] spec §3.3, §14.6 — cascata de cancelamento é assíncrona no backend; o frontend não espera por ela. */
+/** [PLANNED] spec §3.3, §14.6 — cancellation cascade is asynchronous on the backend; the frontend does not wait for it. */
 export function useCreateUnavailability(barberId: string) {
   const queryClient = useQueryClient();
 

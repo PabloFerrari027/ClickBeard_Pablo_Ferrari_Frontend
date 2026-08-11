@@ -12,9 +12,9 @@ interface ErrorStateProps {
 }
 
 /**
- * Estado de erro de qualquer seção assíncrona (spec §9.2, §12.4, §15). Uso padrão é
- * `onAction`/`actionLabel` (ex. "Tentar novamente", "Voltar"); `action` permite um
- * nó customizado quando o botão padrão não é suficiente.
+ * Error state for any async section (spec §9.2, §12.4, §15). Standard usage is
+ * `onAction`/`actionLabel` (e.g. "Try again", "Go back"); `action` allows a
+ * custom node when the default button isn't enough.
  */
 export function ErrorState({
   title = "Algo deu errado",

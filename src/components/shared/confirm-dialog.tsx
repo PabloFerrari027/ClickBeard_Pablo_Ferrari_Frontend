@@ -25,10 +25,10 @@ interface ConfirmDialogProps {
 }
 
 /**
- * `AlertDialog` genérico parametrizável (spec §9.2) — usado em toda ação
- * destrutiva/administrativa de alto impacto (cancelar, excluir, desativar,
- * remover qualificação/indisponibilidade). Fica aberto durante `isPending`;
- * o chamador fecha via `onOpenChange` após a mutação resolver.
+ * Generic, parameterizable `AlertDialog` (spec §9.2) — used for every high-impact
+ * destructive/administrative action (cancel, delete, deactivate,
+ * remove qualification/unavailability). Stays open while `isPending`;
+ * the caller closes it via `onOpenChange` once the mutation resolves.
  */
 export function ConfirmDialog({
   open,

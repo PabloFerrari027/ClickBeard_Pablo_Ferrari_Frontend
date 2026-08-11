@@ -11,7 +11,7 @@ interface TimeSlotPickerProps {
   disabled?: boolean;
 }
 
-/** Grade de horários de `/book` (spec §9.2): a API já retorna só os livres. */
+/** Time slot grid for `/book` (spec §9.2): the API already returns only the free ones. */
 export function TimeSlotPicker({ slots, value, onChange, disabled }: TimeSlotPickerProps) {
   return (
     <div

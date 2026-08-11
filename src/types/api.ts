@@ -24,7 +24,7 @@ export interface UsersListResponse {
 // auth + account-verification
 // ---------------------------------------------------------------------------
 
-/** Resposta de POST /auth/login — não retorna token, apenas confirma credenciais (spec §10.2). */
+/** Response of POST /auth/login — does not return a token, only confirms credentials (spec §10.2). */
 export interface LoginResponse {
   user: {
     id: string;
@@ -37,7 +37,7 @@ export interface ValidateCodeResponse {
   verified: true;
 }
 
-/** Resposta de POST /account-verification/complete — emite a sessão (spec §12.1). */
+/** Response of POST /account-verification/complete — issues the session (spec §12.1). */
 export interface CompleteVerificationResponse {
   accessToken: string;
   accessTokenExpiresAt: string;
@@ -78,7 +78,7 @@ export interface BarbersListResponse {
   totalPages: number;
 }
 
-/** [PLANEJADO] spec §3.3, §10.9 */
+/** [PLANNED] spec §3.3, §10.9 */
 export interface BarberUnavailability {
   id: string;
   barberId: string;
@@ -88,7 +88,7 @@ export interface BarberUnavailability {
   createdAt: string;
 }
 
-/** [PLANEJADO] GET /barbers/:id/unavailabilities não pagina (spec §2). */
+/** [PLANNED] GET /barbers/:id/unavailabilities does not paginate (spec §2). */
 export interface BarberUnavailabilitiesResponse {
   unavailabilities: BarberUnavailability[];
 }
@@ -120,7 +120,7 @@ export interface TimeSlot {
   endAt: string;
 }
 
-/** GET /appointments/time-slots — grade de horários livres para um barbeiro/qualificação/data (spec §9.2). */
+/** GET /appointments/time-slots — grid of free time slots for a barber/qualification/date (spec §9.2). */
 export interface TimeSlotsResponse {
   timeSlots: TimeSlot[];
 }
@@ -205,7 +205,7 @@ export interface CustomerMetrics {
   activeCustomers: number;
   inactiveCustomers: number;
   topCustomersByAppointments: TopCustomer[];
-  /** Presente apenas quando `customerId` é informado na query; `null` quando o cliente não existe. */
+  /** Present only when `customerId` is provided in the query; `null` when the customer does not exist. */
   lastAppointment?: CustomerLastAppointment | null;
 }
 
@@ -226,11 +226,11 @@ export interface FreeTimeSlotsForBarber {
 export interface OccupationMetrics {
   averageOccupancyRate: number;
   occupancyByBarber: BarberOccupation[];
-  /** Sempre referente a hoje, independente do período selecionado (spec §13.12). Backend nem sempre envia. */
+  /** Always refers to today, regardless of the selected period (spec §13.12). Backend does not always send it. */
   freeTimeSlots?: FreeTimeSlotsForBarber[];
 }
 
-/** GET /analytics/dashboard — agrega os mesmos formatos usados pelas páginas de analytics individuais. */
+/** GET /analytics/dashboard — aggregates the same formats used by the individual analytics pages. */
 export interface DashboardMetrics {
   users: UserMetrics;
   appointments: AppointmentMetrics;

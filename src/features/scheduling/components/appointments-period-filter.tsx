@@ -16,9 +16,9 @@ interface AppointmentsPeriodFilterProps {
 }
 
 /**
- * Filtro de `startAt`/`endAt` de `GET /appointments/future`. Diferente do `PeriodFilter`
- * de analytics: este endpoint não tem conceito de `preset` no servidor, só aceita bounds
- * brutos — por isso um componente dedicado em vez de reusar aquele.
+ * `startAt`/`endAt` filter for `GET /appointments/future`. Unlike the analytics `PeriodFilter`:
+ * this endpoint has no concept of a `preset` on the server, it only accepts raw bounds —
+ * hence a dedicated component instead of reusing that one.
  */
 export function AppointmentsPeriodFilter({ value, onChange }: AppointmentsPeriodFilterProps) {
   const [draftStart, setDraftStart] = useState<Date | undefined>(
@@ -73,7 +73,7 @@ export function AppointmentsPeriodFilter({ value, onChange }: AppointmentsPeriod
   );
 }
 
-/** `endAt` é inclusivo no backend (`Op.lte`) — sem isso, o dia selecionado em "Até" ficaria de fora. */
+/** `endAt` is inclusive on the backend (`Op.lte`) — without this, the day selected in "Até" would be excluded. */
 function endOfDay(date?: Date): Date | undefined {
   if (!date) return undefined;
   const result = new Date(date);

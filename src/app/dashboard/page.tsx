@@ -7,7 +7,7 @@ import { Loader2 } from "lucide-react";
 import { AuthenticatedHome } from "@/features/home/components/authenticated-home";
 import { useAuth } from "@/lib/auth-context";
 
-/** `/dashboard`: painel inicial pós-login (CLIENT/BARBER/ADMIN), guarda de sessão — redireciona visitantes para `/login`. */
+/** `/dashboard`: post-login home panel (CLIENT/BARBER/ADMIN), session guard — redirects visitors to `/login`. */
 export default function DashboardPage() {
   const { isLoading, isAuthenticated, user } = useAuth();
   const router = useRouter();

@@ -122,7 +122,7 @@ const LOCATION_INFO = [
   },
 ];
 
-/** Home (spec §5, §13.4) — landing acessível a visitantes e autenticados; só o CTA de header/hero/footer muda com a sessão. */
+/** Home (spec §5, §13.4) — landing page accessible to both visitors and authenticated users; only the header/hero/footer CTA changes with the session. */
 export function PublicHome() {
   const { user, optimisticUser, logout } = useAuth();
   const router = useRouter();

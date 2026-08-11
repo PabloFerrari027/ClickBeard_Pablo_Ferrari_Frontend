@@ -8,15 +8,15 @@ export interface ApiFetchOptions {
   body?: unknown;
   query?: Record<string, string | number | boolean | undefined>;
   /**
-   * Rotas de /auth/* e /account-verification/* nunca disparam o refresh automático
-   * em 401, para evitar loop (spec §12.2).
+   * Routes under /auth/* and /account-verification/* never trigger the automatic
+   * refresh on 401, to avoid a loop (spec §12.2).
    */
   skipAuthRefresh?: boolean;
 }
 
 let refreshInFlight: Promise<string | null> | null = null;
 
-/** Única chamada concorrente a POST /api/auth/refresh (Route Handler local), mesmo com múltiplas 401 simultâneas. */
+/** Single concurrent call to POST /api/auth/refresh (local Route Handler), even with multiple simultaneous 401s. */
 function refreshAccessToken(): Promise<string | null> {
   if (!refreshInFlight) {
     refreshInFlight = fetch("/api/auth/refresh", { method: "POST" })
@@ -78,10 +78,10 @@ async function performFetch(
 }
 
 /**
- * Wrapper único de fetch (spec §4.1, §4.4, §12.2): injeta `Authorization`, parseia os
- * dois formatos de erro da API, e enfileira um único refresh em 401 antes de
- * desistir e forçar logout. Nenhum componente `.tsx` chama `fetch` diretamente —
- * toda chamada passa por aqui via um `service`.
+ * Single fetch wrapper (spec §4.1, §4.4, §12.2): injects `Authorization`, parses the
+ * two API error formats, and queues a single refresh on 401 before giving up
+ * and forcing logout. No `.tsx` component calls `fetch` directly —
+ * every call goes through here via a `service`.
  */
 export async function apiFetch<T>(
   path: string,
