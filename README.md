@@ -1,7 +1,5 @@
 # ClickBeard Frontend — Documentação da Aplicação
 
-> Este documento descreve **o que foi efetivamente implementado** neste repositório. A especificação original que guiou a implementação está em [`clickbeard-frontend-spec.md`](./clickbeard-frontend-spec.md) — use aquele arquivo como fonte de verdade sobre _requisitos_, e este aqui como fonte de verdade sobre _como o código está organizado hoje_.
-
 ---
 
 ## 1. Visão geral
@@ -11,8 +9,6 @@ ClickBeard é um sistema de agendamento para barbearia com três papéis de usu�
 1. **Área pública** — cadastro (sempre como `CLIENT`), login em duas etapas (senha + código de verificação por e-mail).
 2. **Área do cliente** — CLIENT e BARBER têm exatamente as mesmas permissões: consultar barbeiros, agendar, ver e cancelar os próprios agendamentos, editar perfil/senha. A única diferença é de navegação: o catálogo de qualificações (`/qualifications`) só aparece no menu do BARBER — o CLIENT já escolhe a qualificação dentro do próprio wizard de agendamento, então um catálogo à parte não tinha uso pra ele.
 3. **Área administrativa** — ADMIN gerencia barbeiros, qualificações, agendamentos (hoje/futuros) e visualiza um painel de analytics com 6 telas.
-
-Não existe backend real conectado neste momento — `NEXT_PUBLIC_API_URL` aponta para um placeholder (`.env.local.example`). Nenhum fluxo foi testado ponta a ponta contra dados reais; a aplicação foi validada via `next build`, `tsc --noEmit`, `next lint` e inspeção manual do HTML renderizado em `next dev`.
 
 ---
 
@@ -43,12 +39,12 @@ cp .env.local.example .env.local   # ajuste NEXT_PUBLIC_API_URL para a API real
 npm run dev                        # http://localhost:3000
 ```
 
-| Script          | Efeito                                                              |
-| --------------- | ------------------------------------------------------------------- |
-| `npm run dev`   | Servidor de desenvolvimento (Turbopack)                             |
-| `npm run build` | Build de produção — inclui checagem de tipos TypeScript             |
-| `npm run start` | Sobe o build de produção                                            |
-| `npm run lint`  | ESLint (inclui as regras `react-hooks` de pureza do React Compiler) |
+| Script           | Efeito                                                                                              |
+| ---------------- | --------------------------------------------------------------------------------------------------- |
+| `npm run dev`    | Servidor de desenvolvimento (Turbopack)                                                             |
+| `npm run build`  | Build de produção — inclui checagem de tipos TypeScript                                             |
+| `npm run start`  | Sobe o build de produção                                                                            |
+| `npm run lint`   | ESLint (inclui as regras `react-hooks` de pureza do React Compiler)                                 |
 | `npm run commit` | Prompt interativo do Commitizen para criar um commit no formato Conventional Commits (ver Seção 13) |
 
 ### Variáveis de ambiente
@@ -113,38 +109,38 @@ Layout dedicado (`(auth)/layout.tsx`): card centralizado sobre fundo `muted`, se
 
 `/dashboard` também fica fora de `(client)` (mesmo motivo: precisa decidir os `navItems` por `role`, incluindo `ADMIN`, que o layout de `(client)` não cobre). Guarda de sessão própria (redireciona para `/login` se não autenticado) e renderiza `AuthenticatedHome` (saudação, card de resumo por papel, grid de atalhos) — é o destino pós-login e o que o item "Início" do menu e o avatar da home apontam. Ambos os componentes vivem em `features/home/components/`.
 
-| Rota                 | Página                       | Conteúdo                                                                           |
-| -------------------- | ---------------------------- | ---------------------------------------------------------------------------------- |
-| `/profile`           | `profile/page.tsx`           | Abas Dados / Segurança                                                             |
-| `/barbers`           | `barbers/page.tsx`           | Grid de barbeiros (somente leitura)                                                |
-| `/barbers/[id]`      | `barbers/[id]/page.tsx`      | Detalhe + CTA "Agendar"                                                            |
-| `/qualifications`    | `qualifications/page.tsx`    | Catálogo de serviços (somente leitura, sem paginação); só no menu do BARBER       |
-| `/book`              | `book/page.tsx`              | Wizard de agendamento (4 passos)                                                   |
-| `/appointments`      | `appointments/page.tsx`      | Meus agendamentos (paginado)                                                       |
-| `/appointments/[id]` | `appointments/[id]/page.tsx` | Detalhe + cancelamento                                                             |
+| Rota                 | Página                       | Conteúdo                                                                    |
+| -------------------- | ---------------------------- | --------------------------------------------------------------------------- |
+| `/profile`           | `profile/page.tsx`           | Abas Dados / Segurança                                                      |
+| `/barbers`           | `barbers/page.tsx`           | Grid de barbeiros (somente leitura)                                         |
+| `/barbers/[id]`      | `barbers/[id]/page.tsx`      | Detalhe + CTA "Agendar"                                                     |
+| `/qualifications`    | `qualifications/page.tsx`    | Catálogo de serviços (somente leitura, sem paginação); só no menu do BARBER |
+| `/book`              | `book/page.tsx`              | Wizard de agendamento (4 passos)                                            |
+| `/appointments`      | `appointments/page.tsx`      | Meus agendamentos (paginado)                                                |
+| `/appointments/[id]` | `appointments/[id]/page.tsx` | Detalhe + cancelamento                                                      |
 
 **Barbeiro não pode agendar consigo mesmo**: no passo 1 do wizard (`BookingWizard`, `features/scheduling/components/booking-wizard.tsx`), a lista de barbeiros exclui aquele cujo `userId` é igual ao `id` do usuário logado — vale tanto para a seleção manual quanto para um `barberId` pré-selecionado via query string (`/book?barberId=...`, usado pelo CTA "Agendar" de `/barbers/[id]`). É uma validação client-side (UX); a API é a autoridade final e deve rejeitar `POST /appointments` no mesmo cenário.
 
 ### 5.3 Área administrativa — `(admin)`
 
-| Rota                            | Página                               | Conteúdo                                                    |
-| ------------------------------- | ------------------------------------ | ----------------------------------------------------------- |
-| `/admin/dashboard`              | `admin/dashboard/page.tsx`           | Métricas consolidadas + gráficos                            |
-| `/admin/analytics/users`        | `admin/analytics/users/page.tsx`     | Métricas de usuários                                        |
-| `/admin/analytics/appointments` | `.../appointments/page.tsx`          | Métricas de agendamentos                                    |
-| `/admin/analytics/barbers`      | `.../barbers/page.tsx`               | Métricas de barbeiros                                       |
-| `/admin/analytics/customers`    | `.../customers/page.tsx`             | Métricas de clientes (top clientes por agendamentos)         |
-| `/admin/analytics/occupation`   | `.../occupation/page.tsx`            | Ocupação por barbeiro + horários livres hoje                |
-| `/admin/barbers`                | `admin/barbers/page.tsx`             | Tabela de barbeiros                                         |
-| `/admin/barbers/new`            | `admin/barbers/new/page.tsx`         | Criar barbeiro                                              |
-| `/admin/barbers/[id]`           | `admin/barbers/[id]/page.tsx`        | Abas Dados / Qualificações / Indisponibilidades\*           |
-| `/admin/barbers/[id]/edit`      | `.../edit/page.tsx`                  | Editar idade/data de contratação                            |
-| `/admin/qualifications`         | `admin/qualifications/page.tsx`      | CRUD completo                                               |
-| `/admin/appointments/today`     | `admin/appointments/today/page.tsx`  | Agenda do dia                                               |
+| Rota                            | Página                               | Conteúdo                                                          |
+| ------------------------------- | ------------------------------------ | ----------------------------------------------------------------- |
+| `/admin/dashboard`              | `admin/dashboard/page.tsx`           | Métricas consolidadas + gráficos                                  |
+| `/admin/analytics/users`        | `admin/analytics/users/page.tsx`     | Métricas de usuários                                              |
+| `/admin/analytics/appointments` | `.../appointments/page.tsx`          | Métricas de agendamentos                                          |
+| `/admin/analytics/barbers`      | `.../barbers/page.tsx`               | Métricas de barbeiros                                             |
+| `/admin/analytics/customers`    | `.../customers/page.tsx`             | Métricas de clientes (top clientes por agendamentos)              |
+| `/admin/analytics/occupation`   | `.../occupation/page.tsx`            | Ocupação por barbeiro + horários livres hoje                      |
+| `/admin/barbers`                | `admin/barbers/page.tsx`             | Tabela de barbeiros                                               |
+| `/admin/barbers/new`            | `admin/barbers/new/page.tsx`         | Criar barbeiro                                                    |
+| `/admin/barbers/[id]`           | `admin/barbers/[id]/page.tsx`        | Abas Dados / Qualificações / Indisponibilidades\*                 |
+| `/admin/barbers/[id]/edit`      | `.../edit/page.tsx`                  | Editar idade/data de contratação                                  |
+| `/admin/qualifications`         | `admin/qualifications/page.tsx`      | CRUD completo                                                     |
+| `/admin/appointments/today`     | `admin/appointments/today/page.tsx`  | Agenda do dia                                                     |
 | `/admin/appointments/future`    | `admin/appointments/future/page.tsx` | Agenda futura (inclui cancelados), com filtro de período (De/Até) |
-| `/admin/appointments/[id]`      | `admin/appointments/[id]/page.tsx`   | Detalhe + cancelamento admin\*                              |
-| `/admin/users`                  | `admin/users/page.tsx`               | Tabela paginada de usuários                                 |
-| `/admin/users/[id]`             | `admin/users/[id]/page.tsx`          | Gestão de usuário (papel, ativação)                         |
+| `/admin/appointments/[id]`      | `admin/appointments/[id]/page.tsx`   | Detalhe + cancelamento admin\*                                    |
+| `/admin/users`                  | `admin/users/page.tsx`               | Tabela paginada de usuários                                       |
+| `/admin/users/[id]`             | `admin/users/[id]/page.tsx`          | Gestão de usuário (papel, ativação)                               |
 
 \* Atrás de `PLANNED_FEATURES_ENABLED` (ver Seção 9).
 
@@ -265,16 +261,16 @@ Cada formulário mapeia os erros de domínio relevantes para o campo certo (ex.:
 
 Todas em `lib/business-rules.ts`, cada uma comentada com a seção da spec de origem:
 
-| Constante                                                             | Valor    | Uso                                                         |
-| --------------------------------------------------------------------- | -------- | ----------------------------------------------------------- |
-| `MIN_APPOINTMENT_NOTICE_HOURS`                                        | 2        | Janela de cancelamento (`CancelWindowNotice`)                |
-| `VERIFICATION_CODE_TTL_MINUTES`                                       | 10       | Referência de UX (não exibido como contador)                |
-| `MAX_VERIFICATION_CODE_ATTEMPTS`                                      | 5        | Contador "Tentativa N de 5" no `OtpInput`                   |
-| `RESEND_CODE_COOLDOWN_SECONDS`                                        | 30       | Cooldown do botão "Reenviar código"                         |
-| `API_PAGE_SIZE`                                                       | 100      | Documental (a API não aceita alterar)                       |
-| `CANCELLATION_REASON_MIN_LENGTH` / `UNAVAILABILITY_REASON_MIN_LENGTH` | 3        | Validação Zod dos formulários `[PLANEJADO]`                 |
-| `MIN_PASSWORD_LENGTH`                                                 | 8        | `schemas/password.schema.ts`                                |
-| `BARBER_MIN_AGE` / `BARBER_MAX_AGE`                                   | 18 / 100 | Validação Zod de criação/edição de barbeiro                 |
+| Constante                                                             | Valor    | Uso                                           |
+| --------------------------------------------------------------------- | -------- | --------------------------------------------- |
+| `MIN_APPOINTMENT_NOTICE_HOURS`                                        | 2        | Janela de cancelamento (`CancelWindowNotice`) |
+| `VERIFICATION_CODE_TTL_MINUTES`                                       | 10       | Referência de UX (não exibido como contador)  |
+| `MAX_VERIFICATION_CODE_ATTEMPTS`                                      | 5        | Contador "Tentativa N de 5" no `OtpInput`     |
+| `RESEND_CODE_COOLDOWN_SECONDS`                                        | 30       | Cooldown do botão "Reenviar código"           |
+| `API_PAGE_SIZE`                                                       | 100      | Documental (a API não aceita alterar)         |
+| `CANCELLATION_REASON_MIN_LENGTH` / `UNAVAILABILITY_REASON_MIN_LENGTH` | 3        | Validação Zod dos formulários `[PLANEJADO]`   |
+| `MIN_PASSWORD_LENGTH`                                                 | 8        | `schemas/password.schema.ts`                  |
+| `BARBER_MIN_AGE` / `BARBER_MAX_AGE`                                   | 18 / 100 | Validação Zod de criação/edição de barbeiro   |
 
 **Importante**: essas constantes só evitam round-trips previsíveis (ex.: desabilitar o botão "Cancelar" antes de tentar). A API é sempre a autoridade final — nenhum formulário assume sucesso sem a resposta real do backend.
 
@@ -305,70 +301,14 @@ Todas em `lib/business-rules.ts`, cada uma comentada com a seção da spec de or
 
 ### Componentes compartilhados de maior reuso (`components/shared/`)
 
-| Componente                               | Papel                                                                                                                                                                              |
-| ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `DataTable` + `DataTablePagination`      | Wrapper genérico sobre `@tanstack/react-table` v8 com paginação server-side, skeleton de loading, estado vazio/erro e fallback de card empilhado em mobile (`renderMobileCard`)    |
-| `ConfirmDialog`                          | `AlertDialog` genérico parametrizável — toda ação destrutiva/administrativa da aplicação passa por ele                                                                             |
-| `PeriodFilter`                           | Seletor de preset (`TODAY/WEEK/MONTH/YEAR/CUSTOM`) + range picker, reusado nas 6 páginas de analytics                                                                              |
-| `OtpInput`                               | Campo de 6 dígitos com auto-avanço, colar, e submit automático                                                                                                                     |
-| `MultiSelectChips`                       | Alternativa por chips clicáveis ao "Command com checkboxes" da spec, usada na seleção de qualificações ao criar um barbeiro                                                        |
-| `AppSidebar` / `AppHeader` / `MobileNav` | Shell de navegação — mesmos componentes para os grupos `(client)` e `(admin)`, parametrizados por `NavItem[]`                                                                      |
+| Componente                               | Papel                                                                                                                                                                                                   |
+| ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `DataTable` + `DataTablePagination`      | Wrapper genérico sobre `@tanstack/react-table` v8 com paginação server-side, skeleton de loading, estado vazio/erro e fallback de card empilhado em mobile (`renderMobileCard`)                         |
+| `ConfirmDialog`                          | `AlertDialog` genérico parametrizável — toda ação destrutiva/administrativa da aplicação passa por ele                                                                                                  |
+| `PeriodFilter`                           | Seletor de preset (`TODAY/WEEK/MONTH/YEAR/CUSTOM`) + range picker, reusado nas 6 páginas de analytics                                                                                                   |
+| `OtpInput`                               | Campo de 6 dígitos com auto-avanço, colar, e submit automático                                                                                                                                          |
+| `MultiSelectChips`                       | Alternativa por chips clicáveis ao "Command com checkboxes" da spec, usada na seleção de qualificações ao criar um barbeiro                                                                             |
+| `AppSidebar` / `AppHeader` / `MobileNav` | Shell de navegação — mesmos componentes para os grupos `(client)` e `(admin)`, parametrizados por `NavItem[]`                                                                                           |
 | `Breadcrumbs`                            | Usado nas 7 rotas listadas na spec §5 (`/barbers/[id]`, `/appointments/[id]`, `/admin/barbers/[id]`, `/admin/barbers/[id]/edit`, `/admin/appointments/[id]`, `/admin/analytics/*`, `/admin/users/[id]`) |
-
----
-
-## 12. Limitações herdadas da API (não são bugs do frontend)
-
-Estas restrições vêm da ausência de endpoints no backend e moldaram decisões de UI — documentadas em detalhe no Apêndice da spec original:
-
-1. ~~Sem listagem de usuários~~ — resolvido: `GET /users` agora pagina como os demais módulos; ver `/admin/users` (`features/users/components/admin-users-table-content.tsx`).
-2. **Sem "esqueci minha senha"** — `PATCH /users/:id/password` sempre exige a senha atual.
-3. ~~Sem edição de nome/data de nascimento~~ — resolvido: `PATCH /users/:id/profile` (self-only, nem admin pode agir por outro usuário aqui) edita nome e data de nascimento; e-mail continua somente leitura (sem rota dedicada). Senha (`PATCH /users/:id/password`) e papel (`PATCH /users/:id/role`, admin) continuam em rotas separadas.
-4. **Status ativo/inativo do barbeiro não aparece na listagem** — `BarberResponseDto` não traz o `active` do usuário subjacente; chamar `GET /users/:id` por linha não escalaria.
-5. **Criar barbeiro exige digitar o email manualmente** — não existe `GET /users?role=BARBER` para popular um dropdown de busca (`features/barbers/components/barber-form.tsx`, campo `email`). O usuário precisa já ter papel `BARBER` antes de ser vinculado a um perfil operacional aqui. ⚠️ `ChangeRoleDialog` (`/admin/users/[id]`) não permite mais promover para `BARBER` — só regredir um `BARBER` existente para `CLIENT`/`ADMIN` — e não há outro fluxo de UI que promova um usuário a `BARBER`; hoje isso deixa a promoção sem caminho na interface (ver `features/users/components/change-role-dialog.tsx`).
-
----
-
-## 13. Fluxo de contribuição e commits
-
-### 13.1 Conventional Commits via Commitizen
-
-Todo commit deste repositório segue [Conventional Commits](https://www.conventionalcommits.org/) (`tipo(escopo opcional): descrição`, em inglês). O projeto tem [Commitizen](https://github.com/commitizen/cz-cli) configurado com o adapter `cz-conventional-changelog` (`package.json` → `config.commitizen`, e `.czrc` para integrações que leem o adapter diretamente):
-
-```bash
-npm run commit   # em vez de "git add -A && git commit -m ..."
-```
-
-O comando abre um prompt interativo que monta a mensagem no formato correto. Tipos usados no histórico até agora: `feat`, `chore`, `style`, `docs` — outros tipos padrão (`fix`, `refactor`, `test`, `perf`) seguem a mesma convenção quando aplicável.
-
-### 13.2 Branches e Pull Requests
-
-`main` é protegida por convenção: todo trabalho novo entra por uma branch de feature e um Pull Request, nunca por push direto (a única exceção histórica é o commit inicial de bootstrap do Commitizen, necessário porque o GitHub exige que a branch base de um PR já exista).
-
-Convenção de nome de branch: `<tipo>/<assunto-em-kebab-case>`, por exemplo:
-
-- `chore/project-foundation` — tooling, configuração, tipos e libs compartilhadas
-- `feat/ui-kit`, `feat/auth`, `feat/home`, `feat/barbers`, `feat/scheduling`, `feat/qualifications`, `feat/users`, `feat/analytics` — uma branch/PR por área de domínio
-- `docs/readme-update` — atualizações de documentação
-
-Cada PR agrupa vários commits pequenos e temáticos (schemas → services → hooks → components → pages, nessa ordem de dependência) em vez de um único commit "bulk", para manter o histórico revisável área por área.
-
-### 13.3 Ordem de dependência entre PRs
-
-A ordem de merge segue a árvore de dependências do código, não é arbitrária:
-
-```
-chore/project-foundation  (tooling, tipos, lib/ base, api-client, globals.css)
-        ↓
-feat/ui-kit                (primitivas shadcn, componentes shared, AppProviders, layout raiz)
-        ↓
-feat/auth                  (sessão, AuthProvider, proxy, guardas de rota, páginas de auth)
-        ↓
-feat/home ──┬── feat/barbers ──┬── feat/scheduling
-            ├── feat/qualifications
-            └── feat/users ──── feat/analytics
-```
-
-`feat/home`, `feat/barbers`, `feat/qualifications`, `feat/users`, `feat/scheduling` e `feat/analytics` só precisam de `feat/auth` como base (todas consomem `useAuth`); a ordem entre elas no histórico é apenas a ordem de merge escolhida, não uma dependência real entre si.
 
 ---
