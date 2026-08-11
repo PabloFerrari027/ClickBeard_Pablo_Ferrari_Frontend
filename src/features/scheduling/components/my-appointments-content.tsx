@@ -75,7 +75,7 @@ export function MyAppointmentsContent() {
                   <MoreHorizontal className="size-4" aria-hidden="true" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
+              <DropdownMenuContent align="end" onClick={(event) => event.stopPropagation()}>
                 <DropdownMenuItem asChild>
                   <Link href={`/appointments/${appointment.id}`}>Ver detalhes</Link>
                 </DropdownMenuItem>

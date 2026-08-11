@@ -80,7 +80,7 @@ export function AdminBarbersTableContent() {
                 <MoreHorizontal className="size-4" aria-hidden="true" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
+            <DropdownMenuContent align="end" onClick={(event) => event.stopPropagation()}>
               <DropdownMenuItem asChild>
                 <Link href={`/admin/barbers/${row.original.id}`}>Ver detalhes</Link>
               </DropdownMenuItem>
@@ -148,7 +148,10 @@ export function AdminBarbersTableContent() {
                           <MoreHorizontal className="size-4" aria-hidden="true" />
                         </Button>
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
+                      <DropdownMenuContent
+                        align="end"
+                        onClick={(event) => event.stopPropagation()}
+                      >
                         <DropdownMenuItem asChild>
                           <Link href={`/admin/barbers/${barber.id}`}>Ver detalhes</Link>
                         </DropdownMenuItem>

@@ -95,7 +95,7 @@ export function AdminAppointmentsListContent({
                 <MoreHorizontal className="size-4" aria-hidden="true" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
+            <DropdownMenuContent align="end" onClick={(event) => event.stopPropagation()}>
               <DropdownMenuItem asChild>
                 <Link href={`/admin/appointments/${row.original.id}`}>Ver detalhes</Link>
               </DropdownMenuItem>
