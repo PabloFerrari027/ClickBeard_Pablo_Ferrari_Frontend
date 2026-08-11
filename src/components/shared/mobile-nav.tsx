@@ -21,7 +21,7 @@ interface MobileNavProps {
   onLogout: () => void;
 }
 
-/** Sidebar mobile como `Sheet` (drawer), fecha automaticamente ao navegar (spec §8.2). */
+/** Mobile sidebar as a `Sheet` (drawer), closes automatically on navigation (spec §8.2). */
 export function MobileNav({ items, onLogout }: MobileNavProps) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();

@@ -10,7 +10,7 @@ interface MetricCardProps {
   isLoading?: boolean;
 }
 
-/** `MetricCard × N` (spec §9.2, §13.11) — usado em todos os blocos de dashboard/analytics. */
+/** `MetricCard × N` (spec §9.2, §13.11) — used across every dashboard/analytics block. */
 export function MetricCard({ label, value, icon: Icon, isLoading }: MetricCardProps) {
   return (
     <Card>

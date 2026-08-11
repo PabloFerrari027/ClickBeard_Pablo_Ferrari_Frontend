@@ -73,7 +73,7 @@ export function AppointmentsPeriodFilter({ value, onChange }: AppointmentsPeriod
   );
 }
 
-/** `endAt` is inclusive on the backend (`Op.lte`) — without this, the day selected in "Até" would be excluded. */
+/** `endAt` is inclusive on the backend (`Op.lte`) — without this, the day selected in the "To" field would be excluded. */
 function endOfDay(date?: Date): Date | undefined {
   if (!date) return undefined;
   const result = new Date(date);

@@ -8,7 +8,7 @@ interface DataTablePaginationProps {
   onPageChange: (page: number) => void;
 }
 
-/** Reflete `page`/`totalPages` retornados pela API — nunca pagina client-side (spec §9.1, §11). */
+/** Reflects `page`/`totalPages` returned by the API — never paginates client-side (spec §9.1, §11). */
 export function DataTablePagination({
   page,
   totalPages,

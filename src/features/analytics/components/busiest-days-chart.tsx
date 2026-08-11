@@ -6,7 +6,7 @@ import type { DayOfWeekCount } from "@/types/api";
 
 const DAY_LABELS = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
 
-/** `busiestDaysOfWeek` (spec §13.11, §13.12) — eixo com nomes dos dias traduzidos de 0..6. */
+/** `busiestDaysOfWeek` (spec §13.11, §13.12) — axis with day names translated from 0..6. */
 export function BusiestDaysChart({ data }: { data: DayOfWeekCount[] | undefined }) {
   const chartData = (data ?? []).map((item) => ({
     ...item,

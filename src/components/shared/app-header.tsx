@@ -22,7 +22,7 @@ interface AppHeaderProps {
   homeHref: string;
 }
 
-/** Comum aos grupos (client)/(admin) (spec §8.1). */
+/** Shared by the (client)/(admin) route groups (spec §8.1). */
 export function AppHeader({ navItems, homeHref }: AppHeaderProps) {
   const { user, optimisticUser, logout } = useAuth();
   const router = useRouter();

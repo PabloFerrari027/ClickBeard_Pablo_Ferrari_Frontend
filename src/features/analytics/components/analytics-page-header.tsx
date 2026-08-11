@@ -17,7 +17,7 @@ interface AnalyticsPageHeaderProps {
 
 /**
  * Shared header for the 6 analytics pages (spec §13.11-13.12): `PeriodFilter` + manual
- * "Atualizar" button (analytics isn't invalidated by mutation — only the backend's 5min cache).
+ * "Refresh" button (analytics isn't invalidated by mutation — only the backend's 5min cache).
  */
 export function AnalyticsPageHeader({
   title,

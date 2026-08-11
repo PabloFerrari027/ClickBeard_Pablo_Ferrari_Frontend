@@ -7,7 +7,7 @@ export interface BreadcrumbItem {
   href?: string;
 }
 
-/** Breadcrumbs conforme tabela da spec §5 — usado nas 7 rotas que ela lista. */
+/** Breadcrumbs per the spec §5 table — used on the 7 routes it lists. */
 export function Breadcrumbs({ items }: { items: BreadcrumbItem[] }) {
   return (
     <nav

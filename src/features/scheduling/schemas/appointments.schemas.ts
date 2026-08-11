@@ -2,7 +2,7 @@ import { z } from "zod";
 
 import { CANCELLATION_REASON_MIN_LENGTH } from "@/lib/business-rules";
 
-/** [PLANEJADO] `PATCH /appointments/:id/cancel` (spec §10.8). */
+/** [PLANNED] `PATCH /appointments/:id/cancel` (spec §10.8). */
 export const cancelByAdminSchema = z.object({
   reason: z
     .string()

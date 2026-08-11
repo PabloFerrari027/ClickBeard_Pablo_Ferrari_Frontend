@@ -27,8 +27,8 @@ export interface CompleteVerificationPayload {
 }
 
 /**
- * Rotas de /auth/* e /account-verification/* — sempre com `skipAuthRefresh: true`
- * (spec §12.2) para nunca disparar o interceptor de refresh em loop.
+ * /auth/* and /account-verification/* routes — always with `skipAuthRefresh: true`
+ * (spec §12.2) to never trigger the refresh interceptor in a loop.
  */
 export const authService = {
   register(payload: RegisterPayload): Promise<void> {

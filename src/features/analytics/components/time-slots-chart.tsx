@@ -5,7 +5,7 @@ import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxi
 import { formatTime } from "@/lib/utils";
 import type { TimeSlotCount } from "@/types/api";
 
-/** `mostUsedTimeSlots` (spec §13.11, §13.12) — carregado via `next/dynamic({ssr:false})` pelo consumidor. */
+/** `mostUsedTimeSlots` (spec §13.11, §13.12) — loaded via `next/dynamic({ssr:false})` by the consumer. */
 export function TimeSlotsChart({ data }: { data: TimeSlotCount[] | undefined }) {
   const chartData = (data ?? []).map((item) => ({
     ...item,
